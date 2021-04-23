@@ -1,0 +1,47 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
+/* @import url("https://quantum-ui.netlify.app/components/components.css"); */
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons+Outlined");
+body {
+  font-family: "Open Sans", sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.app-header {
+  text-align: center;
+}
+
+.app-body {
+  margin: 0rem 2rem 0rem 2rem;
+}
+
+.btn {
+  margin: 0.25rem;
+  border-radius: 0.5rem;
+}
+
+.navbar {
+  border-radius: 0;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  background-color: #111827;
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.sort,
+.filter {
+  border: 1px solid black;
+  margin: 1rem;
+  padding: 1rem;
+}
