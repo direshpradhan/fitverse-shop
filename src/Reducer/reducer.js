@@ -1,4 +1,5 @@
 export const initialState = {
+  products: [],
   cart: [],
   wishlist: [],
   sortBy: null,
@@ -9,6 +10,9 @@ export const initialState = {
 
 export const reducer = (state, action) => {
   switch (action.type) {
+    case "INITIALIZE_PRODUCTS":
+      console.log("Intialize", action.payload);
+      return { ...state, products: action.payload };
     case "ADD_TO_CART":
       return {
         ...state,
@@ -70,7 +74,7 @@ export const reducer = (state, action) => {
       return { ...state, fastDeliveryOnly: !state.fastDeliveryOnly };
 
     case "MOVE_TO_WISHLIST":
-      const changeCart = state.cart.filter(
+      const changedCart = state.cart.filter(
         (cartItem) => cartItem.id !== action.payload.id
       );
 
@@ -81,11 +85,30 @@ export const reducer = (state, action) => {
       if (!isInWishList) {
         return {
           ...state,
-          cart: changeCart,
+          cart: changedCart,
           wishlist: [...state.wishlist, action.payload],
         };
       }
-      return { ...state, cart: changeCart };
+      return { ...state, cart: changedCart };
+
+    case "MOVE_TO_CART":
+      console.log("entered");
+      const changedWishlist = state.wishlist.filter(
+        (wishlistItem) => wishlistItem.id !== action.payload.id
+      );
+
+      const isInCart = state.cart.find(
+        (cartItem) => cartItem.id === action.payload.id
+      );
+
+      if (!isInCart) {
+        return {
+          ...state,
+          cart: [...state.cart, { ...action.payload, quantity: 1 }],
+          wishlist: changedWishlist,
+        };
+      }
+      return { ...state, wishlist: changedWishlist };
 
     case "PRICE_RANGE":
       return { ...state, priceSlider: action.payload };

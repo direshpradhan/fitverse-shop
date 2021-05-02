@@ -1,18 +1,10 @@
 import { useData } from "../../Context/DataContext";
+import styles from "./CartCard.module.css";
 
 export const CartCard = ({ cartItem }) => {
   const { dispatch } = useData();
   return (
-    <div
-      key={cartItem.id}
-      style={{
-        border: "1px solid #4B5563",
-        borderRadius: "0 0 0.5rem 0.5rem",
-        margin: "1rem",
-        maxWidth: "40%",
-        padding: "0 0 1rem",
-      }}
-    >
+    <div className={`${styles.card}`} key={cartItem.id}>
       <img
         src={cartItem.image}
         width="100%"
@@ -30,24 +22,28 @@ export const CartCard = ({ cartItem }) => {
         <div> 3 days minimum </div>
       )}
       <button
+        className={`${styles.button}`}
         onClick={() => dispatch({ type: "DECREMENT", payload: cartItem.id })}
       >
         -
-      </button>
-      {cartItem.quantity}
+      </button>{" "}
+      <span style={{ fontWeight: "bold" }}>{cartItem.quantity}</span>{" "}
       <button
+        className={`${styles.button}`}
         onClick={() => dispatch({ type: "INCREMENT", payload: cartItem.id })}
       >
         +
-      </button>
-      <button
+      </button>{" "}
+      <span
+        className={`${styles.delete_icon} material-icons-outlined`}
         onClick={() =>
           dispatch({ type: "REMOVE_CART_ITEM", payload: cartItem.id })
         }
       >
-        Remove from Cart
-      </button>
+        delete
+      </span>{" "}
       <button
+        className={`${styles.button}`}
         onClick={() =>
           dispatch({
             type: "MOVE_TO_WISHLIST",

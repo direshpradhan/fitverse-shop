@@ -1,0 +1,31 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #4b5563;
+  border-radius: 0 0 0.5rem 0.5rem;
+  margin: 1rem;
+  max-width: 190px;
+  padding-bottom: 1rem;
+}
+
+.product_details {
+  flex-grow: 1;
+  padding: 0 0.25rem;
+}
+
+.button {
+  border-radius: 0rem;
+  background-color: #111827;
+  color: white;
+  border: none;
+  padding: 0.3rem 0.5rem;
+  cursor: pointer;
+}
+
+.wishlist_icon {
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+  cursor: pointer;
+}

@@ -1,0 +1,24 @@
+.card {
+  position: relative;
+  border: 1px solid #4b5563;
+  border-radius: 0 0 0.5rem 0.5rem;
+  margin: 1rem;
+  max-width: 40%;
+  padding-bottom: 1rem;
+}
+
+.button {
+  border-radius: 0rem;
+  background-color: #111827;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.delete_icon {
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+  cursor: pointer;
+}

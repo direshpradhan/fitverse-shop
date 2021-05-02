@@ -1,19 +1,11 @@
 import { Link } from "react-router-dom";
 import { useData } from "../../Context/DataContext";
+import styles from "./WishlistCard.module.css";
 
 export const WishlistCard = ({ wishlistItem, setRoute }) => {
   const { state, dispatch } = useData();
   return (
-    <div
-      key={wishlistItem.id}
-      style={{
-        border: "1px solid #4B5563",
-        borderRadius: "0 0 0.5rem 0.5rem",
-        margin: "1rem",
-        maxWidth: "40%",
-        padding: "0 0 1rem",
-      }}
-    >
+    <div className={`${styles.card}`} key={wishlistItem.id}>
       <img
         src={wishlistItem.image}
         width="100%"
@@ -30,30 +22,25 @@ export const WishlistCard = ({ wishlistItem, setRoute }) => {
       ) : (
         <div> 3 days minimum </div>
       )}
-      <button
+      <span
+        className={`${styles.delete_icon} material-icons-outlined`}
         onClick={() =>
           dispatch({ type: "REMOVE_WISHLIST_ITEM", payload: wishlistItem.id })
         }
       >
-        Remove from Wishlist
+        delete
+      </span>{" "}
+      <button
+        className={`${styles.button}`}
+        onClick={() =>
+          dispatch({
+            type: "MOVE_TO_CART",
+            payload: wishlistItem,
+          })
+        }
+      >
+        Move to cart
       </button>
-      {!state.cart.find((cartItem) => cartItem.id === wishlistItem.id) ? (
-        <button
-          onClick={() =>
-            dispatch({
-              type: "ADD_TO_CART",
-              payload: wishlistItem,
-            })
-          }
-        >
-          Add to cart
-        </button>
-      ) : (
-        <button>
-          {" "}
-          <Link to="/cart">Go to Cart</Link>
-        </button>
-      )}
     </div>
   );
 };

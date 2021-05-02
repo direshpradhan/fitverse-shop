@@ -5,7 +5,7 @@ export const Nav = () => {
   const { login, logout } = useAuth();
   return (
     <nav className="navbar">
-      <Link to="/" className="nav-brand">
+      <Link to="/" className="nav-brand" style={{ color: "white" }}>
         E-commerce
       </Link>
       <ul className="list-non-bullet">

@@ -1,5 +1,6 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import { initialState, reducer } from "../Reducer/reducer";
+import axios from "axios";
 
 const DataContext = createContext();
 
@@ -9,6 +10,22 @@ export const useData = () => {
 
 export const DataProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    (async function getProducts() {
+      try {
+        const response = await axios.get(
+          "https://Ecom-Backend.pdiresh.repl.co/products"
+        );
+        dispatch({
+          type: "INITIALIZE_PRODUCTS",
+          payload: response.data.products,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
 
   return (
     <DataContext.Provider

@@ -33,7 +33,7 @@ body {
   background-color: #111827;
 }
 
-.options {
+/* .options {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -44,4 +44,4 @@ body {
   border: 1px solid black;
   margin: 1rem;
   padding: 1rem;
-}
+} */
