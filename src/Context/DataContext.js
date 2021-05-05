@@ -32,6 +32,9 @@ export const DataProvider = ({ children }) => {
       value={{
         state,
         dispatch,
+        products: state.products,
+        cart: state.cart,
+        wishlist: state.wishlist,
         sortBy: state.sortBy,
         fastDeliveryOnly: state.fastDeliveryOnly,
         showInventoryAll: state.showInventoryAll,

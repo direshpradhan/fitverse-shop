@@ -2,7 +2,7 @@
   position: fixed;
   bottom: -1px;
   width: 100%;
-  z-index: 1;
+  z-index: 3;
   height: 8vh;
   background: white;
   display: flex;
@@ -98,4 +98,32 @@
   right: 0;
   background-color: rgba(0, 0, 0, 0.4);
   overflow: hidden;
+}
+
+.card_container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.products {
+  margin-bottom: 5rem;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+@media screen and (min-width: 800px) {
+  .card_container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 1.5rem;
+    place-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .products {
+    margin: 0 1.5rem 5rem;
+  }
 }

@@ -1,0 +1,108 @@
+.heading {
+  margin-bottom: 2rem;
+}
+
+.main_container {
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.item_list {
+  width: 100%;
+  padding: 2rem;
+}
+
+.card {
+  margin-bottom: 1.25rem;
+  width: 100%;
+}
+
+.price {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start;
+  position: sticky;
+  top: 100px;
+}
+
+.price > p {
+  line-height: 1.5;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.price div {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+.price div:last-of-type {
+  border-top: 1px solid gray;
+  padding-top: 0.75rem;
+  margin-top: 0.75rem;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.space_between {
+  justify-content: space-between;
+}
+
+.button {
+  border: none;
+  border-radius: 0.25rem;
+  color: white;
+  background-color: var(--primary-color);
+  padding: 0.75rem;
+  cursor: pointer;
+  text-align: center;
+  font-size: 1rem;
+  margin-top: 1.5rem;
+}
+
+.button:hover {
+  opacity: 0.9;
+}
+
+.cart_empty {
+  height: 60vh;
+  font-weight: 600;
+  font-size: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart_empty > p {
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+@media screen and (min-width: 800px) {
+  .main_container {
+    display: flex;
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .item_list {
+    width: calc(60% - 1rem);
+    padding: 1rem;
+    border-right: 1px solid #e9e9eb;
+  }
+
+  .price {
+    width: 40%;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    position: sticky;
+    top: 100px;
+  }
+}

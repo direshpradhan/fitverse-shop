@@ -1,92 +1,49 @@
-import { useState } from "react";
-import { ProductCard } from "../../Components/ProductCard/ProductCard";
+import React, { useState } from "react";
 import { useData } from "../../Context/DataContext";
-import { productList } from "../../ProductsDB";
-import { ProductOperations, filteredData } from "./ProductOperations";
 import styles from "./Products.module.css";
 
-export const Products = ({ setRoute }) => {
+export const ProductOperations = () => {
   const {
-    products,
+    state,
+    dispatch,
     sortBy,
     showInventoryAll,
     fastDeliveryOnly,
     priceSlider,
   } = useData();
+  const [filterHide, setFilterHide] = useState(true);
+  const [sortHide, setSortHide] = useState(true);
 
-  const getSortedData = (data, sortBy) => {
-    if (sortBy && sortBy === "LOW_TO_HIGH") {
-      return [...data].sort((item1, item2) => item1.price - item2.price);
-    }
-    if (sortBy && sortBy === "HIGH_TO_LOW") {
-      return [...data].sort((item1, item2) => item2.price - item1.price);
-    }
-    return data;
-  };
+  const hide = { display: "none" };
+  const visible = { display: "" };
 
-  const getFilteredData = (
-    data,
-    fastDeliveryOnly,
-    showInventoryAll,
-    priceSlider
-  ) => {
-    return data
-      .filter((item) => (showInventoryAll ? true : item?.inStock))
-      .filter((item) => (fastDeliveryOnly ? item.fastDelivery : true))
-      .filter((item) => item.price < Number(priceSlider));
-  };
+  //   const getSortedData = (data, sortBy) => {
+  //     if (sortBy && sortBy === "LOW_TO_HIGH") {
+  //       return [...data].sort((item1, item2) => item1.price - item2.price);
+  //     }
+  //     if (sortBy && sortBy === "HIGH_TO_LOW") {
+  //       return [...data].sort((item1, item2) => item2.price - item1.price);
+  //     }
+  //     return data;
+  //   };
 
-  const sortedData = getSortedData(products, sortBy);
-  const filteredData = getFilteredData(
-    sortedData,
-    fastDeliveryOnly,
-    showInventoryAll,
-    priceSlider
-  );
-  // const {
-  //   state,
-  //   dispatch,
-  //   sortBy,
-  //   showInventoryAll,
-  //   fastDeliveryOnly,
-  //   priceSlider,
-  // } = useData();
-  // const [filterHide, setFilterHide] = useState(true);
-  // const [sortHide, setSortHide] = useState(true);
+  //   const getFilteredData = (data, fastDeliveryOnly, showInventoryAll,priceSlider) => {
+  //     return data
+  //       .filter((item) => (showInventoryAll ? true : item?.inStock))
+  //       .filter((item) => (fastDeliveryOnly ? item.fastDelivery : true))
+  //       .filter((item) => item.price < Number(priceSlider));
+  //   };
 
-  // const hide = { display: "none" };
-  // const visible = { display: "" };
-
-  // const getSortedData = (data, sortBy) => {
-  //   if (sortBy && sortBy === "LOW_TO_HIGH") {
-  //     return [...data].sort((item1, item2) => item1.price - item2.price);
-  //   }
-  //   if (sortBy && sortBy === "HIGH_TO_LOW") {
-  //     return [...data].sort((item1, item2) => item2.price - item1.price);
-  //   }
-  //   return data;
-  // };
-
-  // const getFilteredData = (data, fastDeliveryOnly, showInventoryAll) => {
-  //   return data
-  //     .filter((item) => (showInventoryAll ? true : item?.inStock))
-  //     .filter((item) => (fastDeliveryOnly ? item.fastDelivery : true))
-  //     .filter((item) => item.price < Number(priceSlider));
-  // };
-
-  // const sortedData = getSortedData(state.products, sortBy);
-  // const filteredData = getFilteredData(
-  //   sortedData,
-  //   fastDeliveryOnly,
-  //   showInventoryAll,
-  //   priceSlider
-  // );
-
+  //   const sortedData = getSortedData(state.products, sortBy);
+  //   const filteredData = getFilteredData(
+  //     sortedData,
+  //     fastDeliveryOnly,
+  //     showInventoryAll,
+  //     priceSlider
+  //   );
   return (
-    <div className={`${styles.products}`}>
-      {/* <h2>Products</h2> */}
-      <ProductOperations />
-      {/* <div className={`${styles.options_container}`}>
+    <div>
+      <div className={`${styles.options_container}`}>
         <div
           className={`${styles.sort}`}
           onClick={() => setSortHide((val) => !val)}
@@ -122,6 +79,7 @@ export const Products = ({ setRoute }) => {
               <ul>
                 <li>
                   <input
+                    className={`${styles.pointer}`}
                     type="radio"
                     name="sort"
                     onChange={() =>
@@ -129,10 +87,18 @@ export const Products = ({ setRoute }) => {
                     }
                     checked={state.sortBy && state.sortBy === "LOW_TO_HIGH"}
                   />
-                  <label>Price-Low to High</label>
+                  <label
+                    className={`${styles.pointer}`}
+                    onClick={() =>
+                      dispatch({ type: "SORT", payload: "LOW_TO_HIGH" })
+                    }
+                  >
+                    Price-Low to High
+                  </label>
                 </li>
                 <li>
                   <input
+                    className={`${styles.pointer}`}
                     type="radio"
                     name="sort"
                     onChange={() =>
@@ -140,7 +106,14 @@ export const Products = ({ setRoute }) => {
                     }
                     checked={state.sortBy && state.sortBy === "HIGH_TO_LOW"}
                   />
-                  <label>Price-High to Low</label>
+                  <label
+                    className={`${styles.pointer}`}
+                    onClick={() =>
+                      dispatch({ type: "SORT", payload: "HIGH_TO_LOW" })
+                    }
+                  >
+                    Price-High to Low
+                  </label>
                 </li>
               </ul>
             </div>
@@ -177,11 +150,17 @@ export const Products = ({ setRoute }) => {
               <ul>
                 <li>
                   <input
+                    className={`${styles.pointer}`}
                     type="checkbox"
                     onChange={() => dispatch({ type: "SHOW_OUT_OF_STOCK" })}
                     checked={state.showInventoryAll}
                   />
-                  <label>Include Out of Stock</label>
+                  <label
+                    className={`${styles.pointer}`}
+                    onClick={() => dispatch({ type: "SHOW_OUT_OF_STOCK" })}
+                  >
+                    Include Out of Stock
+                  </label>
                 </li>
               </ul>
               <hr />
@@ -189,11 +168,17 @@ export const Products = ({ setRoute }) => {
               <ul>
                 <li>
                   <input
+                    className={`${styles.pointer}`}
                     type="checkbox"
                     onChange={() => dispatch({ type: "FAST_DELIVERY_ONLY" })}
                     checked={state.fastDeliveryOnly}
                   />
-                  <label>Fast Delivery Only</label>
+                  <label
+                    className={`${styles.pointer}`}
+                    onClick={() => dispatch({ type: "FAST_DELIVERY_ONLY" })}
+                  >
+                    Fast Delivery Only
+                  </label>
                 </li>
               </ul>
               <hr />
@@ -201,6 +186,7 @@ export const Products = ({ setRoute }) => {
               <ul>
                 <li>
                   <input
+                    className={`${styles.pointer}`}
                     type="range"
                     min="0"
                     max="1000"
@@ -217,16 +203,6 @@ export const Products = ({ setRoute }) => {
               </ul>
             </div>
           </div>
-        )}
-      </div> */}
-
-      <div className={`${styles.card_container}`}>
-        {products.length !== 0 ? (
-          filteredData.map((product) => (
-            <ProductCard product={product} setRoute={setRoute} />
-          ))
-        ) : (
-          <h1>Loading.....</h1>
         )}
       </div>
     </div>

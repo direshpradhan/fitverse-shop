@@ -8,7 +8,7 @@ export const ProductCard = ({ product, setRoute }) => {
   const { login } = useAuth();
   const navigate = useNavigate();
   return (
-    <div key={product.id} className={`${styles.card} card-shadow`}>
+    <div key={product.id} className={`${styles.card}`}>
       <img
         className="card-img"
         src={product.image}
@@ -17,64 +17,82 @@ export const ProductCard = ({ product, setRoute }) => {
         alt={product.productName}
       />
       <div className={`${styles.product_details}`}>
-        <h3> {product.name} </h3>
-        <div>Rs. {product.price}</div>
-        {product.inStock && <div> In Stock </div>}
-        {!product.inStock && <div> Out of Stock </div>}
-        <div>{product.level}</div>
-        {product.fastDelivery ? (
-          <div> Fast Delivery </div>
+        <div>
+          <h4> {product.name} </h4>
+          {/* <span> */}
+          {!state.wishlist.find(
+            (wishlistItem) => wishlistItem.id === product.id
+          ) ? (
+            <span
+              className={`${styles.wishlist_icon} material-icons-outlined`}
+              onClick={() => {
+                login
+                  ? dispatch({
+                      type: "ADD_TO_WISHLIST",
+                      payload: product,
+                    })
+                  : navigate("/login");
+              }}
+            >
+              favorite_border
+            </span>
+          ) : (
+            <span
+              className={`${styles.wishlist_icon} material-icons-outlined`}
+              style={{ color: "red" }}
+              onClick={() =>
+                dispatch({
+                  type: "REMOVE_WISHLIST_ITEM",
+                  payload: product.id,
+                })
+              }
+            >
+              favorite
+            </span>
+          )}
+          {/* </span>{" "} */}
+        </div>
+        <p>{product.brand}</p>
+        <div>
+          Rs. {product.price}{" "}
+          <span style={{ color: "var(--primary-color)" }}>
+            ({product.discount})
+          </span>
+        </div>
+      </div>
+      <div>
+        {!state.cart.find((cartItem) => cartItem.id === product.id) ? (
+          product.inStock ? (
+            <button
+              className={`${styles.button}`}
+              onClick={() => {
+                login
+                  ? dispatch({
+                      type: "ADD_TO_CART",
+                      payload: product,
+                    })
+                  : navigate("/login");
+              }}
+            >
+              Add to cart
+            </button>
+          ) : (
+            <button
+              className={`${styles.button} ${styles.button_disabled}`}
+              disabled
+            >
+              Out of Stock
+            </button>
+          )
         ) : (
-          <div> 3 days minimum </div>
+          <button
+            onClick={() => navigate("/cart")}
+            className={`${styles.button}`}
+          >
+            Go to Cart
+          </button>
         )}
       </div>
-      {!state.cart.find((cartItem) => cartItem.id === product.id) ? (
-        <button
-          className={`${styles.button}`}
-          onClick={() => {
-            login
-              ? dispatch({
-                  type: "ADD_TO_CART",
-                  payload: product,
-                })
-              : navigate("/login");
-          }}
-        >
-          Add to cart
-        </button>
-      ) : (
-        <Link to="/cart">
-          <button className={`${styles.button}`}>Go to Cart</button>
-        </Link>
-      )}
-
-      {!state.wishlist.find(
-        (wishlistItem) => wishlistItem.id === product.id
-      ) ? (
-        <span
-          className={`${styles.wishlist_icon} material-icons-outlined`}
-          onClick={() => {
-            login
-              ? dispatch({
-                  type: "ADD_TO_WISHLIST",
-                  payload: product,
-                })
-              : navigate("/login");
-          }}
-        >
-          favorite_border
-        </span>
-      ) : (
-        <span
-          className={`${styles.wishlist_icon} material-icons-outlined`}
-          style={{ color: "red" }}
-          onClick={() =>
-            dispatch({ type: "REMOVE_WISHLIST_ITEM", payload: product.id })
-          }
-        >
-          favorite
-        </span>
-      )}
     </div>
   );
 };

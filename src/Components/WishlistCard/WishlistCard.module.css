@@ -1,19 +1,50 @@
 .card {
   position: relative;
-  border: 1px solid #4b5563;
-  border-radius: 0 0 0.5rem 0.5rem;
-  margin: 1rem;
-  max-width: 40%;
-  padding-bottom: 1rem;
+  display: flex;
+  border: 1px solid #d1d5db;
+  border-radius: 0.2rem;
+  width: 80vw;
+  height: max-content;
+  padding: 1rem;
+  background-color: white;
+  margin: 1rem auto;
+}
+
+.card_img {
+  width: 40%;
+  height: 30%;
+  margin-right: 1rem;
+}
+
+.card_details {
+  height: 100%;
+  background-color: white;
+}
+
+.card > div > p {
+  margin-bottom: 0.5rem;
+  color: rgb(58, 58, 58);
+  text-transform: capitalize;
+  font-size: 0.9rem;
+}
+
+.card > div > button {
+  margin-top: 2.5rem;
 }
 
 .button {
-  border-radius: 0rem;
-  background-color: #111827;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
+  border-radius: 0.2rem;
+  /* background-color: #111827; */
+  background-color: white;
+  border: 1px solid gray;
+  padding: 0.5rem 0.75rem;
   cursor: pointer;
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+}
+
+.button:hover {
+  border: 2px solid var(--primary-color);
 }
 
 .delete_icon {
@@ -21,4 +52,19 @@
   right: 0.5rem;
   top: 0.5rem;
   cursor: pointer;
+}
+
+@media screen and (min-width: 800px) {
+  .card {
+    width: 70vw;
+  }
+
+  .card_img {
+    width: 35%;
+    height: auto;
+  }
+
+  .card > div > button {
+    margin-top: 5rem;
+  }
 }
