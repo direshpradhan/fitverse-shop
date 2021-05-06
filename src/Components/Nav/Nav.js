@@ -13,7 +13,7 @@ export const Nav = () => {
         className={`${styles.pointer} nav-brand`}
         onClick={() => navigate("/")}
       >
-        FitZone
+        Fitverse
       </div>
       <div>
         <ul className="flex flex-center list-non-bullet">
