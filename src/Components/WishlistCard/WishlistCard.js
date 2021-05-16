@@ -5,7 +5,7 @@ import styles from "./WishlistCard.module.css";
 export const WishlistCard = ({ wishlistItem, setRoute }) => {
   const { dispatch, wishlist } = useData();
   return (
-    <div className={`${styles.card}`} key={wishlistItem.id}>
+    <div className={`${styles.card}`} key={wishlistItem._id}>
       <img
         className={`${styles.card_img}`}
         src={wishlistItem.image}
@@ -23,14 +23,14 @@ export const WishlistCard = ({ wishlistItem, setRoute }) => {
           </span>
         </div>
         {/* <span>
-          {wishlist.find((wishItem) => wishItem.id === wishlistItem.id) && (
+          {wishlist.find((wishItem) => wishItem._id === wishlistItem._id) && (
             <span
               className={`${styles.delete_icon} material-icons-outlined`}
               style={{ color: "red" }}
               onClick={() =>
                 dispatch({
                   type: "REMOVE_WISHLIST_ITEM",
-                  payload: wishlistItem.id,
+                  payload: wishlistItem._id,
                 })
               }
             >
@@ -41,7 +41,10 @@ export const WishlistCard = ({ wishlistItem, setRoute }) => {
         <span
           className={`${styles.delete_icon} material-icons-outlined`}
           onClick={() =>
-            dispatch({ type: "REMOVE_WISHLIST_ITEM", payload: wishlistItem.id })
+            dispatch({
+              type: "REMOVE_WISHLIST_ITEM",
+              payload: wishlistItem._id,
+            })
           }
         >
           close

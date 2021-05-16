@@ -7,8 +7,9 @@ export const ProductCard = ({ product, setRoute }) => {
   const { state, dispatch } = useData();
   const { login } = useAuth();
   const navigate = useNavigate();
+  const isInCart = state.cart.find((cartItem) => cartItem._id === product._id);
   return (
-    <div key={product.id} className={`${styles.card}`}>
+    <div key={product._id} className={`${styles.card}`}>
       <img
         className="card-img"
         src={product.image}
@@ -21,7 +22,7 @@ export const ProductCard = ({ product, setRoute }) => {
           <h4> {product.name} </h4>
           {/* <span> */}
           {!state.wishlist.find(
-            (wishlistItem) => wishlistItem.id === product.id
+            (wishlistItem) => wishlistItem._id === product._id
           ) ? (
             <span
               className={`${styles.wishlist_icon} material-icons-outlined`}
@@ -43,7 +44,7 @@ export const ProductCard = ({ product, setRoute }) => {
               onClick={() =>
                 dispatch({
                   type: "REMOVE_WISHLIST_ITEM",
-                  payload: product.id,
+                  payload: product._id,
                 })
               }
             >
@@ -61,7 +62,7 @@ export const ProductCard = ({ product, setRoute }) => {
         </div>
       </div>
       <div>
-        {!state.cart.find((cartItem) => cartItem.id === product.id) ? (
+        {!isInCart ? (
           product.inStock ? (
             <button
               className={`${styles.button}`}

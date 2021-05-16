@@ -4,7 +4,7 @@ import styles from "./CartCard.module.css";
 export const CartCard = ({ cartItem }) => {
   const { dispatch } = useData();
   return (
-    <div className={`${styles.card}`} key={cartItem.id}>
+    <div className={`${styles.card}`} key={cartItem._id}>
       <img
         className={`${styles.card_img}`}
         src={cartItem.image}
@@ -25,7 +25,7 @@ export const CartCard = ({ cartItem }) => {
           <button
             className={`${styles.button} ${styles.btn_icon} `}
             onClick={() =>
-              dispatch({ type: "DECREMENT", payload: cartItem.id })
+              dispatch({ type: "DECREMENT", payload: cartItem._id })
             }
           >
             -
@@ -34,7 +34,7 @@ export const CartCard = ({ cartItem }) => {
           <button
             className={`${styles.button} ${styles.btn_icon} `}
             onClick={() =>
-              dispatch({ type: "INCREMENT", payload: cartItem.id })
+              dispatch({ type: "INCREMENT", payload: cartItem._id })
             }
           >
             +
@@ -43,7 +43,7 @@ export const CartCard = ({ cartItem }) => {
           <span
             className={`${styles.delete_icon} material-icons-outlined`}
             onClick={() =>
-              dispatch({ type: "REMOVE_CART_ITEM", payload: cartItem.id })
+              dispatch({ type: "REMOVE_CART_ITEM", payload: cartItem._id })
             }
           >
             delete
@@ -51,7 +51,7 @@ export const CartCard = ({ cartItem }) => {
           {/* <button
             className={`${styles.button}`}
             onClick={() =>
-              dispatch({ type: "REMOVE_CART_ITEM", payload: cartItem.id })
+              dispatch({ type: "REMOVE_CART_ITEM", payload: cartItem._id })
             }
           >
             Remove from Cart
