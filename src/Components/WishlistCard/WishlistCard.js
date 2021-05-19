@@ -1,63 +1,84 @@
-import { Link } from "react-router-dom";
+import axios from "axios";
 import { useData } from "../../Context/DataContext";
 import styles from "./WishlistCard.module.css";
 
-export const WishlistCard = ({ wishlistItem, setRoute }) => {
-  const { dispatch, wishlist } = useData();
+export const WishlistCard = ({ wishlistItem }) => {
+  const { dispatch, cart } = useData();
+  const {
+    _id: id,
+    brand,
+    discount,
+    image,
+    name,
+    price,
+    productName,
+  } = wishlistItem;
+  const isInCart = cart.find((cartItem) => cartItem._id === id);
+
+  const removeFromWishlist = async (id) => {
+    try {
+      const response = await axios.delete(
+        `https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist/${id}`
+      );
+      if (response.status === 200) {
+        dispatch({ type: "REMOVE_WISHLIST_ITEM", payload: id });
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const moveToCart = async (id) => {
+    try {
+      if (isInCart) {
+        console.log("inside");
+        const wishResponse = await axios.delete(
+          `https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist/${id}`
+        );
+        if (wishResponse.status === 200) {
+          dispatch({ type: "MOVE_TO_CART", payload: wishlistItem });
+        }
+      } else {
+        const wishResponse = await axios.delete(
+          `https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist/${id}`
+        );
+        const cartResponse = await axios.post(
+          "https://Fitverse-Shop-Backend.pdiresh.repl.co/cart",
+          { _id: id, quantity: 1 }
+        );
+        if (wishResponse.status === 200 && cartResponse.status === 200) {
+          dispatch({ type: "MOVE_TO_CART", payload: wishlistItem });
+        }
+      }
+    } catch (error) {
+      console.log(id);
+      console.log(error.message);
+    }
+  };
+
   return (
-    <div className={`${styles.card}`} key={wishlistItem._id}>
+    <div className={`${styles.card}`} key={id}>
       <img
         className={`${styles.card_img}`}
-        src={wishlistItem.image}
+        src={image}
         width="100%"
         height="auto"
-        alt={wishlistItem.productName}
+        alt={productName}
       />
       <div className={`${styles.card_details}`}>
-        <h4> {wishlistItem.name} </h4>
-        <p>{wishlistItem.brand}</p>
+        <h4> {name} </h4>
+        <p>{brand}</p>
         <div>
-          Rs. {wishlistItem.price}{" "}
-          <span style={{ color: "var(--primary-color)" }}>
-            ({wishlistItem.discount})
-          </span>
+          Rs. {price}{" "}
+          <span style={{ color: "var(--primary-color)" }}>({discount})</span>
         </div>
-        {/* <span>
-          {wishlist.find((wishItem) => wishItem._id === wishlistItem._id) && (
-            <span
-              className={`${styles.delete_icon} material-icons-outlined`}
-              style={{ color: "red" }}
-              onClick={() =>
-                dispatch({
-                  type: "REMOVE_WISHLIST_ITEM",
-                  payload: wishlistItem._id,
-                })
-              }
-            >
-              favorite
-            </span>
-          )}
-        </span>{" "} */}
         <span
           className={`${styles.delete_icon} material-icons-outlined`}
-          onClick={() =>
-            dispatch({
-              type: "REMOVE_WISHLIST_ITEM",
-              payload: wishlistItem._id,
-            })
-          }
+          onClick={() => removeFromWishlist(id)}
         >
           close
         </span>{" "}
-        <button
-          className={`${styles.button}`}
-          onClick={() =>
-            dispatch({
-              type: "MOVE_TO_CART",
-              payload: wishlistItem,
-            })
-          }
-        >
+        <button className={`${styles.button}`} onClick={() => moveToCart(id)}>
           Move to cart
         </button>
       </div>

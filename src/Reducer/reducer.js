@@ -13,18 +13,26 @@ export const reducer = (state, action) => {
     case "INITIALIZE_PRODUCTS":
       console.log("Intialize", action.payload);
       return { ...state, products: action.payload };
+
+    case "INITIALIZE_CART":
+      return { ...state, cart: action.payload };
+
+    case "INITIALIZE_WISHLIST":
+      return { ...state, wishlist: action.payload };
+
     case "ADD_TO_CART":
+      console.log(state.cart);
       return {
         ...state,
         cart: [...state.cart, { ...action.payload, quantity: 1 }],
       };
 
     case "ADD_TO_WISHLIST":
+      console.log(state.wishlist);
       const isInWishlist = state.wishlist.find(
         (wishlistItem) => wishlistItem._id === action.payload._id
       );
       if (!isInWishlist) {
-        console.log(action.payload);
         return { ...state, wishlist: [...state.wishlist, action.payload] };
       }
       return state;

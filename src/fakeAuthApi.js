@@ -1,8 +1,8 @@
 const Users = [
   {
-    username: "diresh",
-    password: "pradhan"
-  }
+    username: "admin",
+    password: "admin123",
+  },
 ];
 
 function getUserwithUserName(username) {

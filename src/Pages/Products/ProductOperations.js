@@ -3,19 +3,9 @@ import { useData } from "../../Context/DataContext";
 import styles from "./Products.module.css";
 
 export const ProductOperations = () => {
-  const {
-    state,
-    dispatch,
-    sortBy,
-    showInventoryAll,
-    fastDeliveryOnly,
-    priceSlider,
-  } = useData();
+  const { state, dispatch, priceSlider } = useData();
   const [filterHide, setFilterHide] = useState(true);
   const [sortHide, setSortHide] = useState(true);
-
-  const hide = { display: "none" };
-  const visible = { display: "" };
 
   return (
     <div>

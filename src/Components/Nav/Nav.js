@@ -6,7 +6,7 @@ import styles from "./Nav.module.css";
 export const Nav = () => {
   const { login, logout } = useAuth();
   const navigate = useNavigate();
-  const { state } = useData();
+  // const { state } = useData();
   return (
     <nav className={`${styles.nav} `}>
       <div
@@ -41,11 +41,19 @@ export const Nav = () => {
           </li>
           <li className="list-item-inline">
             {!login ? (
-              <Link style={{ color: "white" }} to="/login">
-                <button className="btn">Login</button>
-              </Link>
+              // <Link style={{ color: "white" }} to="/login">
+              <button
+                onClick={() => navigate("/login")}
+                className={`${styles.btn_transparent} btn`}
+              >
+                Login
+              </button>
             ) : (
-              <button className="btn" onClick={logout}>
+              // </Link>
+              <button
+                className={`${styles.btn_transparent} btn`}
+                onClick={logout}
+              >
                 Logout
               </button>
             )}

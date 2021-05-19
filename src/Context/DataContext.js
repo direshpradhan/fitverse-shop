@@ -14,12 +14,28 @@ export const DataProvider = ({ children }) => {
   useEffect(() => {
     (async function getProducts() {
       try {
-        const response = await axios.get(
-          "https://Ecom-Backend.pdiresh.repl.co/products"
+        const productsResponse = await axios.get(
+          "https://Fitverse-Shop-Backend.pdiresh.repl.co/products"
+        );
+        const cartResponse = await axios.get(
+          "https://Fitverse-Shop-Backend.pdiresh.repl.co/cart"
+        );
+        const wishlistResponse = await axios.get(
+          "https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist"
         );
         dispatch({
           type: "INITIALIZE_PRODUCTS",
-          payload: response.data.products,
+          payload: productsResponse.data.products,
+        });
+        // console.log(cartResponse);
+        // console.log(wishlistResponse);
+        dispatch({
+          type: "INITIALIZE_CART",
+          payload: cartResponse.data.cartItems,
+        });
+        dispatch({
+          type: "INITIALIZE_WISHLIST",
+          payload: wishlistResponse.data.wishItems,
         });
       } catch (error) {
         console.log(error);

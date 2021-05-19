@@ -1,39 +1,97 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
 import { useData } from "../../Context/DataContext";
 import styles from "./ProductCard.module.css";
+import axios from "axios";
 
-export const ProductCard = ({ product, setRoute }) => {
+export const ProductCard = ({ product }) => {
+  const {
+    _id: id,
+    brand,
+    discount,
+    image,
+    name,
+    price,
+    inStock,
+    productName,
+  } = product;
   const { state, dispatch } = useData();
   const { login } = useAuth();
   const navigate = useNavigate();
-  const isInCart = state.cart.find((cartItem) => cartItem._id === product._id);
+  const isInCart = state.cart.find((cartItem) => cartItem._id === id);
+
+  const addToCart = async (id) => {
+    try {
+      const newCartItem = { _id: id, quantity: 1 };
+      if (login) {
+        const response = await axios.post(
+          "https://Fitverse-Shop-Backend.pdiresh.repl.co/cart",
+          newCartItem
+        );
+        if (response.status === 200) {
+          return dispatch({ type: "ADD_TO_CART", payload: product });
+        }
+        return "";
+      }
+      navigate("/login");
+    } catch (error) {
+      console.log(id);
+      console.log(error.message);
+    }
+  };
+
+  const addToWishlist = async (id) => {
+    try {
+      const newWishlistItem = { _id: id };
+      if (login) {
+        const response = await axios.post(
+          "https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist",
+          newWishlistItem
+        );
+        if (response.status === 200) {
+          return dispatch({ type: "ADD_TO_WISHLIST", payload: product });
+        }
+        return "";
+      }
+      navigate("/login");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const removeFromWishlist = async (id) => {
+    try {
+      const response = await axios.delete(
+        `https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist/${id}`
+      );
+      if (response.status === 200) {
+        dispatch({
+          type: "REMOVE_WISHLIST_ITEM",
+          payload: id,
+        });
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
-    <div key={product._id} className={`${styles.card}`}>
+    <div key={id} className={`${styles.card}`}>
       <img
-        className="card-img"
-        src={product.image}
+        // className="card-img"
+        src={image}
         width="100%"
         height="auto"
-        alt={product.productName}
+        alt={productName}
       />
       <div className={`${styles.product_details}`}>
         <div>
-          <h4> {product.name} </h4>
+          <h4> {name} </h4>
           {/* <span> */}
-          {!state.wishlist.find(
-            (wishlistItem) => wishlistItem._id === product._id
-          ) ? (
+          {!state.wishlist.find((wishlistItem) => wishlistItem._id === id) ? (
             <span
               className={`${styles.wishlist_icon} material-icons-outlined`}
-              onClick={() => {
-                login
-                  ? dispatch({
-                      type: "ADD_TO_WISHLIST",
-                      payload: product,
-                    })
-                  : navigate("/login");
-              }}
+              onClick={() => addToWishlist(id)}
             >
               favorite_border
             </span>
@@ -41,39 +99,25 @@ export const ProductCard = ({ product, setRoute }) => {
             <span
               className={`${styles.wishlist_icon} material-icons-outlined`}
               style={{ color: "red" }}
-              onClick={() =>
-                dispatch({
-                  type: "REMOVE_WISHLIST_ITEM",
-                  payload: product._id,
-                })
-              }
+              onClick={() => removeFromWishlist(id)}
             >
               favorite
             </span>
           )}
           {/* </span>{" "} */}
         </div>
-        <p>{product.brand}</p>
+        <p>{brand}</p>
         <div>
-          Rs. {product.price}{" "}
-          <span style={{ color: "var(--primary-color)" }}>
-            ({product.discount})
-          </span>
+          Rs. {price}{" "}
+          <span style={{ color: "var(--primary-color)" }}>({discount})</span>
         </div>
       </div>
       <div>
         {!isInCart ? (
-          product.inStock ? (
+          inStock ? (
             <button
               className={`${styles.button}`}
-              onClick={() => {
-                login
-                  ? dispatch({
-                      type: "ADD_TO_CART",
-                      payload: product,
-                    })
-                  : navigate("/login");
-              }}
+              onClick={() => addToCart(id)}
             >
               Add to cart
             </button>
