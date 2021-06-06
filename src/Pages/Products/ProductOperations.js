@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useData } from "../../Context/DataContext";
-import styles from "./Products.module.css";
+import styles from "./ProductOperations.module.css";
 
 export const ProductOperations = () => {
   const { state, dispatch, priceSlider } = useData();
@@ -136,12 +136,14 @@ export const ProductOperations = () => {
                   <input
                     className={`${styles.pointer}`}
                     type="checkbox"
+                    id="FAST_DELIVERY_ONLY"
                     onChange={() => dispatch({ type: "FAST_DELIVERY_ONLY" })}
                     checked={state.fastDeliveryOnly}
                   />
                   <label
+                    htmlFor="FAST_DELIVERY_ONLY"
                     className={`${styles.pointer}`}
-                    onClick={() => dispatch({ type: "FAST_DELIVERY_ONLY" })}
+                    // onClick={() => dispatch({ type: "FAST_DELIVERY_ONLY" })}
                   >
                     Fast Delivery Only
                   </label>

@@ -1,6 +1,7 @@
 import { ProductCard } from "../../Components/ProductCard/ProductCard";
 import { useData } from "../../Context/DataContext";
-import { ProductOperations, filteredData } from "./ProductOperations";
+import { ProductOperations } from "./ProductOperations";
+import { ProductOperationsSidebar } from "./ProductOperationsSidebar";
 import styles from "./Products.module.css";
 
 export const Products = ({ setRoute }) => {
@@ -38,9 +39,9 @@ export const Products = ({ setRoute }) => {
   );
 
   return (
-    <div className={`${styles.products}`}>
+    <div className={`${styles.products} flex`}>
       <ProductOperations />
-
+      <ProductOperationsSidebar />
       <div className={`${styles.card_container}`}>
         {products.length !== 0 ? (
           filteredData.map((product) => (

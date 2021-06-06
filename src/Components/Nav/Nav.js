@@ -1,18 +1,13 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
-import { useData } from "../../Context/DataContext";
 import styles from "./Nav.module.css";
 
 export const Nav = () => {
   const { login, logout } = useAuth();
   const navigate = useNavigate();
-  // const { state } = useData();
   return (
     <nav className={`${styles.nav} `}>
-      <div
-        className={`${styles.pointer} nav-brand`}
-        onClick={() => navigate("/")}
-      >
+      <div className={`${styles.pointer}`} onClick={() => navigate("/")}>
         Fitverse
       </div>
       <div>

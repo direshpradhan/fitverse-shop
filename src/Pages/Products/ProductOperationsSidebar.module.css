@@ -1,0 +1,43 @@
+.main {
+  display: none;
+}
+
+.head {
+  margin: 1rem 0;
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.section {
+  margin: 2rem 0 1rem;
+}
+
+.title {
+  font-size: 1.05rem;
+  margin-bottom: 1rem;
+}
+
+.label {
+  padding-left: 0.25rem;
+}
+
+.input {
+  margin: 0.5rem 0;
+}
+
+.border {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+@media screen and (min-width: 1024px) {
+  .main {
+    display: block;
+    position: fixed;
+    width: 17.5vw;
+    top: 10vh;
+    overflow-y: auto;
+    bottom: 0;
+    padding-right: 1rem;
+    border-right: 1px solid #e5e5e5;
+  }
+}

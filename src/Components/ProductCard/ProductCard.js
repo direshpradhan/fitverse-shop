@@ -84,20 +84,20 @@ export const ProductCard = ({ product }) => {
         height="auto"
         alt={productName}
       />
-      <div className={`${styles.product_details}`}>
+      <div className={`${styles.product_details} flex flex-col`}>
         <div>
           <h4> {name} </h4>
           {/* <span> */}
           {!state.wishlist.find((wishlistItem) => wishlistItem._id === id) ? (
             <span
-              className={`${styles.wishlist_icon} material-icons-outlined`}
+              className={`${styles.pointer} material-icons-outlined`}
               onClick={() => addToWishlist(id)}
             >
               favorite_border
             </span>
           ) : (
             <span
-              className={`${styles.wishlist_icon} material-icons-outlined`}
+              className={`${styles.pointer} material-icons-outlined`}
               style={{ color: "red" }}
               onClick={() => removeFromWishlist(id)}
             >
