@@ -22,12 +22,16 @@ export const ProductCard = ({ product }) => {
 
   const addToCart = async (id) => {
     try {
-      const newCartItem = { _id: id, quantity: 1 };
+      console.log(id);
+      const newCartItem = { userId: 123, product: { _id: id } };
+      console.log(login);
       if (login) {
+        console.log(newCartItem);
         const response = await axios.post(
           "https://Fitverse-Shop-Backend.pdiresh.repl.co/cart",
           newCartItem
         );
+        console.log(response);
         if (response.status === 200) {
           return dispatch({ type: "ADD_TO_CART", payload: product });
         }
@@ -42,7 +46,7 @@ export const ProductCard = ({ product }) => {
 
   const addToWishlist = async (id) => {
     try {
-      const newWishlistItem = { _id: id };
+      const newWishlistItem = { userId: 123, product: { _id: id } };
       if (login) {
         const response = await axios.post(
           "https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist",
@@ -62,7 +66,8 @@ export const ProductCard = ({ product }) => {
   const removeFromWishlist = async (id) => {
     try {
       const response = await axios.delete(
-        `https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist/${id}`
+        `https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist/${id}`,
+        { data: { userId: 123 } }
       );
       if (response.status === 200) {
         dispatch({
@@ -88,7 +93,7 @@ export const ProductCard = ({ product }) => {
         <div>
           <h4> {name} </h4>
           {/* <span> */}
-          {!state.wishlist.find((wishlistItem) => wishlistItem._id === id) ? (
+          {!state.wishlist?.find((wishlistItem) => wishlistItem._id === id) ? (
             <span
               className={`${styles.pointer} material-icons-outlined`}
               onClick={() => addToWishlist(id)}

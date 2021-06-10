@@ -47,7 +47,7 @@ export const Nav = () => {
               // </Link>
               <button
                 className={`${styles.btn_transparent} btn`}
-                onClick={logout}
+                onClick={() => logout()}
               >
                 Logout
               </button>

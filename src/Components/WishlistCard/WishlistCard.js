@@ -18,7 +18,8 @@ export const WishlistCard = ({ wishlistItem }) => {
   const removeFromWishlist = async (id) => {
     try {
       const response = await axios.delete(
-        `https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist/${id}`
+        `https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist/${id}`,
+        { data: { userId: 123 } }
       );
       if (response.status === 200) {
         dispatch({ type: "REMOVE_WISHLIST_ITEM", payload: id });
@@ -33,18 +34,20 @@ export const WishlistCard = ({ wishlistItem }) => {
       if (isInCart) {
         console.log("inside");
         const wishResponse = await axios.delete(
-          `https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist/${id}`
+          `https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist/${id}`,
+          { data: { userId: 123 } }
         );
         if (wishResponse.status === 200) {
           dispatch({ type: "MOVE_TO_CART", payload: wishlistItem });
         }
       } else {
         const wishResponse = await axios.delete(
-          `https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist/${id}`
+          `https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist/${id}`,
+          { data: { userId: 123 } }
         );
         const cartResponse = await axios.post(
           "https://Fitverse-Shop-Backend.pdiresh.repl.co/cart",
-          { _id: id, quantity: 1 }
+          { userId: 123, product: { _id: id, quantity: 1 } }
         );
         if (wishResponse.status === 200 && cartResponse.status === 200) {
           dispatch({ type: "MOVE_TO_CART", payload: wishlistItem });

@@ -5,14 +5,15 @@ import { fakeAuthApi } from "../fakeAuthApi";
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
-  const [login, setLogin] = useState(false);
+  const loginStatus = JSON.parse(localStorage?.getItem("login"));
+  const [login, setLogin] = useState(loginStatus?.login);
   const navigate = useNavigate();
   const { state } = useLocation();
 
-  useEffect(() => {
-    const loginStatus = JSON.parse(localStorage?.getItem("login"));
-    loginStatus?.login && setLogin(true);
-  }, []);
+  // useEffect(() => {
+  //   const loginStatus = JSON.parse(localStorage?.getItem("login"));
+  //   loginStatus?.login && setLogin(true);
+  // }, []);
 
   async function loginWithCredentials(username, password) {
     try {

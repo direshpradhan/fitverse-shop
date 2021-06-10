@@ -23,19 +23,20 @@ export const DataProvider = ({ children }) => {
         const wishlistResponse = await axios.get(
           "https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist"
         );
+        console.log(productsResponse);
+        console.log(cartResponse);
+        console.log(wishlistResponse);
         dispatch({
           type: "INITIALIZE_PRODUCTS",
           payload: productsResponse.data.products,
         });
-        // console.log(cartResponse);
-        // console.log(wishlistResponse);
         dispatch({
           type: "INITIALIZE_CART",
-          payload: cartResponse.data.cartItems,
+          payload: cartResponse.data.cart?.products,
         });
         dispatch({
           type: "INITIALIZE_WISHLIST",
-          payload: wishlistResponse.data.wishItems,
+          payload: wishlistResponse.data.wishlist?.products,
         });
       } catch (error) {
         console.log(error);

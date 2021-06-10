@@ -1,11 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 import { useAuth } from "../../Context/AuthContext";
 import styles from "./Login.module.css";
 
 export const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { loginWithCredentials } = useAuth();
+  const { loginWithCredentials, login } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    login && navigate("/");
+  }, []);
 
   function loginHandler(event) {
     // event.preventdefault();

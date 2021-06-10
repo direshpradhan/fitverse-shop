@@ -6,14 +6,14 @@ export const Wishlist = ({ setRoute }) => {
   const { wishlist } = useData();
   return (
     <div>
-      {wishlist.length > 0 ? (
+      {wishlist?.length > 0 ? (
         <h2 className={`heading-md text-centre ${styles.heading}`}>
           My Wishlist
         </h2>
       ) : (
         ""
       )}
-      {wishlist.length > 0 ? (
+      {wishlist?.length > 0 ? (
         <div className="App" style={{ display: "flex", flexWrap: "wrap" }}>
           {wishlist.map((wishlistItem) => (
             <WishlistCard wishlistItem={wishlistItem} setRoute={setRoute} />
