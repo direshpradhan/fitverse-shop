@@ -1,9 +1,11 @@
+import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "../../Context/AuthContext";
-import styles from "./Login.module.css";
+import styles from "../Login/Login.module.css";
 
-export const Login = () => {
+export const Signup = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { loginWithCredentials, token } = useAuth();
@@ -13,20 +15,35 @@ export const Login = () => {
     token && navigate("/");
   }, []);
 
-  function loginHandler(event) {
+  async function signupHandler(event) {
     event.preventDefault();
-    loginWithCredentials(email, password);
+    const response = await axios.post(
+      "https://Fitverse-Shop-Backend.pdiresh.repl.co/signup",
+      { name, email, password }
+    );
+    if (response.status === 200) {
+      navigate("/login");
+    }
   }
 
   return (
     <div className={`${styles.main}`}>
-      <h2>Login</h2>
+      <h2>Signup</h2>
       {/* <label>
         email:{" "} */}
-      <form onSubmit={(event) => loginHandler(event)}>
+      <form onSubmit={signupHandler}>
+        <input
+          placeholder="Name"
+          className={`${styles.input}`}
+          value={name}
+          onChange={(event) => setName(event.target.value)}
+          type="text"
+        />
+        <br />
         <input
           placeholder="Email"
           className={`${styles.input}`}
+          value={email}
           onChange={(event) => setEmail(event.target.value)}
           type="text"
         />
@@ -37,25 +54,22 @@ export const Login = () => {
         <input
           placeholder="Password"
           className={`${styles.input}`}
+          value={password}
           onChange={(event) => setPassword(event.target.value)}
           type="password"
         />
         {/* </label> */}
         <br />
-        <button
-          className={`${styles.button}`}
-          type="submit"
-          // onClick={() => loginHandler(event)}
-        >
-          Login
+        <button className={`${styles.button}`} type="submit">
+          Signup
         </button>
       </form>
       <br />
       <button
+        onClick={() => navigate("/login")}
         className={`${styles.button} ${styles.button_transparent}`}
-        onClick={() => navigate("/signup")}
       >
-        New to Fitverse? Sign up!
+        Already have an account? Log In!
       </button>
     </div>
   );
