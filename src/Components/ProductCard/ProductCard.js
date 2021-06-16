@@ -16,20 +16,21 @@ export const ProductCard = ({ product }) => {
     productName,
   } = product;
   const { state, dispatch } = useData();
-  const { login } = useAuth();
+  const { token } = useAuth();
   const navigate = useNavigate();
   const isInCart = state.cart.find((cartItem) => cartItem._id === id);
 
   const addToCart = async (id) => {
     try {
       console.log(id);
-      const newCartItem = { userId: 123, product: { _id: id } };
-      console.log(login);
-      if (login) {
+      const newCartItem = { product: { _id: id } };
+      console.log(token);
+      if (token) {
         console.log(newCartItem);
         const response = await axios.post(
           "https://Fitverse-Shop-Backend.pdiresh.repl.co/cart",
-          newCartItem
+          newCartItem,
+          { headers: { authorization: `Bearer ${token}` } }
         );
         console.log(response);
         if (response.status === 200) {
@@ -46,11 +47,12 @@ export const ProductCard = ({ product }) => {
 
   const addToWishlist = async (id) => {
     try {
-      const newWishlistItem = { userId: 123, product: { _id: id } };
-      if (login) {
+      const newWishlistItem = { product: { _id: id } };
+      if (token) {
         const response = await axios.post(
           "https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist",
-          newWishlistItem
+          newWishlistItem,
+          { headers: { authorization: `Bearer ${token}` } }
         );
         if (response.status === 200) {
           return dispatch({ type: "ADD_TO_WISHLIST", payload: product });
@@ -67,7 +69,7 @@ export const ProductCard = ({ product }) => {
     try {
       const response = await axios.delete(
         `https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist/${id}`,
-        { data: { userId: 123 } }
+        { headers: { authorization: `Bearer ${token}` } }
       );
       if (response.status === 200) {
         dispatch({

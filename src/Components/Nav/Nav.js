@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
 import styles from "./Nav.module.css";
 
 export const Nav = () => {
-  const { login, logout } = useAuth();
+  const [showModal, setShowModal] = useState(false);
+  const { token, logout } = useAuth();
   const navigate = useNavigate();
   return (
     <nav className={`${styles.nav} `}>
@@ -35,7 +37,7 @@ export const Nav = () => {
             </span>
           </li>
           <li className="list-item-inline">
-            {!login ? (
+            {!token ? (
               // <Link style={{ color: "white" }} to="/login">
               <button
                 onClick={() => navigate("/login")}
@@ -45,12 +47,47 @@ export const Nav = () => {
               </button>
             ) : (
               // </Link>
-              <button
-                className={`${styles.btn_transparent} btn`}
-                onClick={() => logout()}
-              >
-                Logout
-              </button>
+              <div>
+                <span
+                  onClick={() => setShowModal((item) => !item)}
+                  class="material-icons-outlined"
+                >
+                  account_circle
+                </span>
+                <div
+                  style={
+                    showModal
+                      ? {
+                          display: "",
+                          position: "fixed",
+                          right: "1rem",
+                          backgroundColor: "white",
+                          padding: "0.5rem 1rem",
+                          fontWeight: "400",
+                          fontSize: "1rem",
+                        }
+                      : { display: "none" }
+                  }
+                >
+                  <div>Hi, User</div>
+                  <div>My account</div>
+                  <div
+                    onClick={() => {
+                      logout();
+                      setShowModal(false);
+                    }}
+                  >
+                    Logout
+                  </div>
+                </div>
+              </div>
+
+              // <button
+              //   className={`${styles.btn_transparent} btn`}
+              //   onClick={() => logout()}
+              // >
+              //   Logout
+              // </button>
             )}
           </li>
         </ul>

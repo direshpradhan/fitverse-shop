@@ -15,9 +15,12 @@ export const Wishlist = ({ setRoute }) => {
       )}
       {wishlist?.length > 0 ? (
         <div className="App" style={{ display: "flex", flexWrap: "wrap" }}>
-          {wishlist.map((wishlistItem) => (
-            <WishlistCard wishlistItem={wishlistItem} setRoute={setRoute} />
-          ))}
+          {wishlist.map((wishlistItem) => {
+            console.log(wishlistItem);
+            return (
+              <WishlistCard wishlistItem={wishlistItem} setRoute={setRoute} />
+            );
+          })}
         </div>
       ) : (
         <div className={`${styles.wishlist_empty}`}>

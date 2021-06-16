@@ -1,9 +1,11 @@
 import axios from "axios";
+import { useAuth } from "../../Context/AuthContext";
 import { useData } from "../../Context/DataContext";
 import styles from "./WishlistCard.module.css";
 
 export const WishlistCard = ({ wishlistItem }) => {
   const { dispatch, cart } = useData();
+  console.log(wishlistItem);
   const {
     _id: id,
     brand,
@@ -13,13 +15,15 @@ export const WishlistCard = ({ wishlistItem }) => {
     price,
     productName,
   } = wishlistItem;
+  console.log(price);
+  const { token } = useAuth();
   const isInCart = cart.find((cartItem) => cartItem._id === id);
 
   const removeFromWishlist = async (id) => {
     try {
       const response = await axios.delete(
         `https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist/${id}`,
-        { data: { userId: 123 } }
+        { headers: { authorization: `Bearer ${token}` } }
       );
       if (response.status === 200) {
         dispatch({ type: "REMOVE_WISHLIST_ITEM", payload: id });
@@ -35,7 +39,7 @@ export const WishlistCard = ({ wishlistItem }) => {
         console.log("inside");
         const wishResponse = await axios.delete(
           `https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist/${id}`,
-          { data: { userId: 123 } }
+          { headers: { authorization: `Bearer ${token}` } }
         );
         if (wishResponse.status === 200) {
           dispatch({ type: "MOVE_TO_CART", payload: wishlistItem });
@@ -43,11 +47,12 @@ export const WishlistCard = ({ wishlistItem }) => {
       } else {
         const wishResponse = await axios.delete(
           `https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist/${id}`,
-          { data: { userId: 123 } }
+          { headers: { authorization: `Bearer ${token}` } }
         );
         const cartResponse = await axios.post(
           "https://Fitverse-Shop-Backend.pdiresh.repl.co/cart",
-          { userId: 123, product: { _id: id, quantity: 1 } }
+          { product: { _id: id, quantity: 1 } },
+          { headers: { authorization: `Bearer ${token}` } }
         );
         if (wishResponse.status === 200 && cartResponse.status === 200) {
           dispatch({ type: "MOVE_TO_CART", payload: wishlistItem });

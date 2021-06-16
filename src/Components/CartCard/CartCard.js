@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useAuth } from "../../Context/AuthContext";
 import { useData } from "../../Context/DataContext";
 import styles from "./CartCard.module.css";
 
@@ -14,6 +15,7 @@ export const CartCard = ({ cartItem }) => {
     productName,
     quantity,
   } = cartItem;
+  const { token } = useAuth();
 
   const isInWishlist = wishlist?.find((wishItem) => wishItem._id === id);
 
@@ -22,7 +24,8 @@ export const CartCard = ({ cartItem }) => {
       if (desc === "increment") {
         const response = await axios.post(
           `https://Fitverse-Shop-Backend.pdiresh.repl.co/cart/${id}`,
-          { userId: 123, quantity: quantity + 1 }
+          { quantity: quantity + 1 },
+          { headers: { authorization: `Bearer ${token}` } }
         );
         if (response.status === 200) {
           dispatch({ type: "INCREMENT", payload: id });
@@ -30,7 +33,8 @@ export const CartCard = ({ cartItem }) => {
       } else {
         const response = await axios.post(
           `https://Fitverse-Shop-Backend.pdiresh.repl.co/cart/${id}`,
-          { userId: 123, quantity: quantity - 1 }
+          { quantity: quantity - 1 },
+          { headers: { authorization: `Bearer ${token}` } }
         );
         if (response.status === 200) {
           dispatch({ type: "DECREMENT", payload: id });
@@ -46,7 +50,7 @@ export const CartCard = ({ cartItem }) => {
       console.log("Del");
       const response = await axios.delete(
         `https://Fitverse-Shop-Backend.pdiresh.repl.co/cart/${id}`,
-        { data: { userId: 123 } }
+        { headers: { authorization: `Bearer ${token}` } }
       );
       console.log(response);
 
@@ -63,7 +67,7 @@ export const CartCard = ({ cartItem }) => {
       if (isInWishlist) {
         const cartResponse = await axios.delete(
           `https://Fitverse-Shop-Backend.pdiresh.repl.co/cart/${id}`,
-          { data: { userId: 123 } }
+          { headers: { authorization: `Bearer ${token}` } }
         );
         if (cartResponse.status === 200) {
           dispatch({ type: "MOVE_TO_WISHLIST", payload: cartItem });
@@ -71,12 +75,13 @@ export const CartCard = ({ cartItem }) => {
       } else {
         const cartResponse = await axios.delete(
           `https://Fitverse-Shop-Backend.pdiresh.repl.co/cart/${id}`,
-          { data: { userId: 123 } }
+          { headers: { authorization: `Bearer ${token}` } }
         );
 
         const wishResponse = await axios.post(
           "https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist",
-          { userId: 123, product: { _id: id } }
+          { product: { _id: id } },
+          { headers: { authorization: `Bearer ${token}` } }
         );
         console.log(cartResponse);
         console.log(wishResponse);

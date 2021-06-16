@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import { initialState, reducer } from "../Reducer/reducer";
 import axios from "axios";
+import { useAuth } from "./AuthContext";
 
 const DataContext = createContext();
 
@@ -10,6 +11,7 @@ export const useData = () => {
 
 export const DataProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { token } = useAuth();
 
   useEffect(() => {
     (async function getProducts() {
@@ -17,27 +19,35 @@ export const DataProvider = ({ children }) => {
         const productsResponse = await axios.get(
           "https://Fitverse-Shop-Backend.pdiresh.repl.co/products"
         );
-        const cartResponse = await axios.get(
-          "https://Fitverse-Shop-Backend.pdiresh.repl.co/cart"
-        );
-        const wishlistResponse = await axios.get(
-          "https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist"
-        );
-        console.log(productsResponse);
-        console.log(cartResponse);
-        console.log(wishlistResponse);
-        dispatch({
-          type: "INITIALIZE_PRODUCTS",
-          payload: productsResponse.data.products,
-        });
-        dispatch({
-          type: "INITIALIZE_CART",
-          payload: cartResponse.data.cart?.products,
-        });
-        dispatch({
-          type: "INITIALIZE_WISHLIST",
-          payload: wishlistResponse.data.wishlist?.products,
-        });
+        productsResponse.status === 200 &&
+          dispatch({
+            type: "INITIALIZE_PRODUCTS",
+            payload: productsResponse.data.products,
+          });
+        console.log(token);
+        if (token) {
+          const cartResponse = await axios.get(
+            "https://Fitverse-Shop-Backend.pdiresh.repl.co/cart",
+            { headers: { authorization: `Bearer ${token}` } }
+          );
+          const wishlistResponse = await axios.get(
+            "https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist",
+            { headers: { authorization: `Bearer ${token}` } }
+          );
+
+          console.log("cart", cartResponse);
+          console.log("wishlist", wishlistResponse);
+          cartResponse.status === 200 &&
+            dispatch({
+              type: "INITIALIZE_CART",
+              payload: cartResponse.data.cartItems,
+            });
+          wishlistResponse.status === 200 &&
+            dispatch({
+              type: "INITIALIZE_WISHLIST",
+              payload: wishlistResponse.data.wishlistItems,
+            });
+        }
       } catch (error) {
         console.log(error);
       }

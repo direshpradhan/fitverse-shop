@@ -1,12 +1,15 @@
+import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { fakeAuthApi } from "../fakeAuthApi";
 
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
-  const loginStatus = JSON.parse(localStorage?.getItem("login"));
-  const [login, setLogin] = useState(loginStatus?.login);
+  const { login: isUserLoggedIn, token: savedToken } = JSON.parse(
+    localStorage?.getItem("login")
+  ) || { login: false, token: null };
+  // const [login, setLogin] = useState(isUserLoggedIn);
+  const [token, setToken] = useState(savedToken);
   const navigate = useNavigate();
   const { state } = useLocation();
 
@@ -15,27 +18,41 @@ export const AuthContextProvider = ({ children }) => {
   //   loginStatus?.login && setLogin(true);
   // }, []);
 
-  async function loginWithCredentials(username, password) {
+  function loginService(email, password) {
+    return axios.post("https://Fitverse-Shop-Backend.pdiresh.repl.co/login", {
+      email,
+      password,
+    });
+  }
+
+  async function loginWithCredentials(email, password) {
     try {
-      const response = await fakeAuthApi(username, password);
-      if (response.success) {
-        setLogin(true);
-        localStorage?.setItem("login", JSON.stringify({ login: true }));
-        navigate(state?.from ? state.from : "/");
+      console.log("entered.....");
+      const response = await loginService(email, password);
+      if (response.status === 200) {
+        loginUser(response.data);
       }
     } catch (error) {
       console.log("Sahi password nahi pata kya?", error);
     }
   }
 
+  function loginUser({ token }) {
+    setToken(token);
+    // setLogin(true);
+    localStorage?.setItem("login", JSON.stringify({ login: true, token }));
+    navigate(state?.from ? state.from : "/");
+  }
+
   function logout() {
     localStorage.removeItem("login");
-    setLogin(false);
+    // setLogin(false);
+    setToken(null);
     navigate("/");
   }
 
   return (
-    <AuthContext.Provider value={{ login, loginWithCredentials, logout }}>
+    <AuthContext.Provider value={{ loginWithCredentials, logout, token }}>
       {children}
     </AuthContext.Provider>
   );
