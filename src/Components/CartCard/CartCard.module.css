@@ -87,3 +87,9 @@
   /* color: var(--primary-color); */
   transform: scale(1.1);
 }
+
+@media screen and (max-width: 768px) {
+  .card_img {
+    height: 35%;
+  }
+}

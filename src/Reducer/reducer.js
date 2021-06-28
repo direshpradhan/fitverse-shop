@@ -5,7 +5,8 @@ export const initialState = {
   sortBy: null,
   fastDeliveryOnly: false,
   showInventoryAll: false,
-  priceSlider: 1000,
+  filterByCategories: [],
+  priceSlider: 50000,
 };
 
 export const reducer = (state, action) => {
@@ -121,6 +122,32 @@ export const reducer = (state, action) => {
 
     case "PRICE_RANGE":
       return { ...state, priceSlider: action.payload };
+
+    case "FILTER_BY_CATEGORY":
+      console.log(state.filterByCategories.includes(action.payload));
+      console.log(action.payload);
+      if (state.filterByCategories.includes(action.payload)) {
+        console.log({
+          ...state,
+          filterByCategories: state.filterByCategories.filter(
+            (category) => category !== action.payload
+          ),
+        });
+        return {
+          ...state,
+          filterByCategories: state.filterByCategories.filter(
+            (category) => category !== action.payload
+          ),
+        };
+      }
+      console.log({
+        ...state,
+        filterByCategories: state.filterByCategories.concat(action.payload),
+      });
+      return {
+        ...state,
+        filterByCategories: state.filterByCategories.concat(action.payload),
+      };
 
     default:
       return state;

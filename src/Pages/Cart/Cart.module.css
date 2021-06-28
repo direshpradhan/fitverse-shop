@@ -82,6 +82,18 @@
   font-weight: 400;
 }
 
+@media screen and (min-width: 768px) {
+  .item_list {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .price {
+    width: 90%;
+    margin: 0 auto;
+  }
+}
+
 @media screen and (min-width: 1024px) {
   .main_container {
     display: flex;

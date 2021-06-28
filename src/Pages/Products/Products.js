@@ -5,8 +5,14 @@ import { ProductOperationsSidebar } from "./ProductOperationsSidebar";
 import styles from "./Products.module.css";
 
 export const Products = ({ setRoute }) => {
-  const { products, sortBy, showInventoryAll, fastDeliveryOnly, priceSlider } =
-    useData();
+  const {
+    products,
+    sortBy,
+    showInventoryAll,
+    fastDeliveryOnly,
+    priceSlider,
+    filterByCategories,
+  } = useData();
 
   const getSortedData = (data, sortBy) => {
     if (sortBy && sortBy === "LOW_TO_HIGH") {
@@ -26,12 +32,23 @@ export const Products = ({ setRoute }) => {
     data,
     fastDeliveryOnly,
     showInventoryAll,
+    filterByCategories,
     priceSlider
   ) => {
-    return data
+    let newData = [...data];
+    newData = newData
       .filter((item) => (showInventoryAll ? true : item?.inStock))
       .filter((item) => (fastDeliveryOnly ? item.fastDelivery : true))
-      .filter((item) => item.discountedPrice < Number(priceSlider));
+      .filter((item) => Number(item.discountedPrice) < Number(priceSlider));
+
+    if (filterByCategories.length !== 0) {
+      console.log("entered..");
+      console.log(filterByCategories);
+      newData = newData.filter((item) =>
+        filterByCategories.includes(item.category)
+      );
+    }
+    return newData;
   };
 
   const sortedData = getSortedData(products, sortBy);
@@ -39,6 +56,7 @@ export const Products = ({ setRoute }) => {
     sortedData,
     fastDeliveryOnly,
     showInventoryAll,
+    filterByCategories,
     priceSlider
   );
 

@@ -66,6 +66,7 @@ export const DataProvider = ({ children }) => {
         fastDeliveryOnly: state.fastDeliveryOnly,
         showInventoryAll: state.showInventoryAll,
         priceSlider: state.priceSlider,
+        filterByCategories: state.filterByCategories,
       }}
     >
       {children}

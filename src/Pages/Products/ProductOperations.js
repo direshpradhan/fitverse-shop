@@ -150,6 +150,132 @@ export const ProductOperations = () => {
                 </li>
               </ul>
               <hr />
+              <h4>Category</h4>
+              <ul>
+                <li>
+                  <input
+                    type="checkbox"
+                    className={`${styles.pointer}`}
+                    id="CARDIO"
+                    onChange={() =>
+                      dispatch({
+                        type: "FILTER_BY_CATEGORY",
+                        payload: "Cardio",
+                      })
+                    }
+                    // checked={fastDeliveryOnly}
+                  />
+                  <label htmlFor="CARDIO" className={`${styles.pointer}`}>
+                    Cardio
+                  </label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    className={`${styles.pointer}`}
+                    id="STRENGTH_TRAINING"
+                    onChange={() =>
+                      dispatch({
+                        type: "FILTER_BY_CATEGORY",
+                        payload: "Strength Training",
+                      })
+                    }
+                    // checked={fastDeliveryOnly}
+                  />
+                  <label
+                    htmlFor="STRENGTH_TRAINING"
+                    className={`${styles.pointer}`}
+                  >
+                    Strength Training
+                  </label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    id="ACCESSORIES"
+                    className={`${styles.pointer}`}
+                    onChange={() =>
+                      dispatch({
+                        type: "FILTER_BY_CATEGORY",
+                        payload: "Accessories",
+                      })
+                    }
+                    // checked={fastDeliveryOnly}
+                  />
+                  <label htmlFor="ACCESSORIES" className={`${styles.pointer}`}>
+                    Accessories
+                  </label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    id="GYM_SUPPORTS"
+                    className={`${styles.pointer}`}
+                    onChange={() =>
+                      dispatch({
+                        type: "FILTER_BY_CATEGORY",
+                        payload: "Gym Supports",
+                      })
+                    }
+                    // checked={fastDeliveryOnly}
+                  />
+                  <label htmlFor="GYM_SUPPORTS" className={`${styles.pointer}`}>
+                    Gym Supports
+                  </label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    className={`${styles.pointer}`}
+                    id="GYM_SUPPORTS"
+                    onChange={() =>
+                      dispatch({
+                        type: "FILTER_BY_CATEGORY",
+                        payload: "Gym Supports",
+                      })
+                    }
+                    // checked={fastDeliveryOnly}
+                  />
+                  <label htmlFor="GYM_SUPPORTS" className={`${styles.pointer}`}>
+                    Gym Supports
+                  </label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    id="GYM_ESSENTIALS"
+                    className={`${styles.pointer}`}
+                    onChange={() =>
+                      dispatch({
+                        type: "FILTER_BY_CATEGORY",
+                        payload: "Gym Essentials",
+                      })
+                    }
+                    // checked={fastDeliveryOnly}
+                  />
+                  <label
+                    htmlFor="GYM_ESSENTIALS"
+                    className={`${styles.pointer}`}
+                  >
+                    Gym Essentials
+                  </label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    id="YOGA"
+                    className={`${styles.pointer}`}
+                    onChange={() =>
+                      dispatch({ type: "FILTER_BY_CATEGORY", payload: "Yoga" })
+                    }
+                    // checked={fastDeliveryOnly}
+                  />
+                  <label htmlFor="YOGA" className={`${styles.pointer}`}>
+                    Yoga
+                  </label>
+                </li>
+              </ul>
+              <hr />
               <h4>Price Range</h4>
               <ul>
                 <li>

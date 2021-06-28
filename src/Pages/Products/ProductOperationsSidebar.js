@@ -67,13 +67,100 @@ export const ProductOperationsSidebar = () => {
       </div>
       <div className={`${styles.border}`}></div>
       <div className={`${styles.section}`}>
+        <div className={`${styles.title}`}>Category</div>
+        <div className={`${styles.input}`}>
+          <input
+            type="checkbox"
+            id="CARDIO"
+            onChange={() =>
+              dispatch({ type: "FILTER_BY_CATEGORY", payload: "Cardio" })
+            }
+            // checked={fastDeliveryOnly}
+          />
+          <label htmlFor="CARDIO" className={`${styles.label}`}>
+            Cardio
+          </label>
+        </div>
+        <div className={`${styles.input}`}>
+          <input
+            type="checkbox"
+            id="STRENGTH_TRAINING"
+            onChange={() =>
+              dispatch({
+                type: "FILTER_BY_CATEGORY",
+                payload: "Strength Training",
+              })
+            }
+            // checked={fastDeliveryOnly}
+          />
+          <label htmlFor="STRENGTH_TRAINING" className={`${styles.label}`}>
+            Strength Training
+          </label>
+        </div>
+        <div className={`${styles.input}`}>
+          <input
+            type="checkbox"
+            id="ACCESSORIES"
+            onChange={() =>
+              dispatch({ type: "FILTER_BY_CATEGORY", payload: "Accessories" })
+            }
+            // checked={fastDeliveryOnly}
+          />
+          <label htmlFor="ACCESSORIES" className={`${styles.label}`}>
+            Accessories
+          </label>
+        </div>
+        <div className={`${styles.input}`}>
+          <input
+            type="checkbox"
+            id="GYM_SUPPORTS"
+            onChange={() =>
+              dispatch({ type: "FILTER_BY_CATEGORY", payload: "Gym Supports" })
+            }
+            // checked={fastDeliveryOnly}
+          />
+          <label htmlFor="GYM_SUPPORTS" className={`${styles.label}`}>
+            Gym Supports
+          </label>
+        </div>
+        <div className={`${styles.input}`}>
+          <input
+            type="checkbox"
+            id="GYM_ESSENTIALS"
+            onChange={() =>
+              dispatch({
+                type: "FILTER_BY_CATEGORY",
+                payload: "Gym Essentials",
+              })
+            }
+            // checked={fastDeliveryOnly}
+          />
+          <label htmlFor="GYM_ESSENTIALS" className={`${styles.label}`}>
+            Gym Essentials
+          </label>
+        </div>
+        <div className={`${styles.input}`}>
+          <input
+            type="checkbox"
+            id="YOGA"
+            onChange={() =>
+              dispatch({ type: "FILTER_BY_CATEGORY", payload: "Yoga" })
+            }
+            // checked={fastDeliveryOnly}
+          />
+          <label htmlFor="YOGA" className={`${styles.label}`}>
+            Yoga
+          </label>
+        </div>
+      </div>
+      <div className={`${styles.section}`}>
         <div className={`${styles.title}`}>Price Range</div>
         <div>&#8377;0 - &#8377;{priceSlider}</div>
         <input
           type="range"
           min="0"
-          max="1000"
-          step="100"
+          max="50000"
+          step="5000"
           value={priceSlider}
           onChange={(event) =>
             dispatch({ type: "PRICE_RANGE", payload: event.target.value })
