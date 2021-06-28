@@ -29,6 +29,7 @@
   margin-bottom: 0.5rem;
   font-weight: 500;
   line-height: 1.5rem;
+  border: none;
 }
 
 .btn_transparent:hover {
@@ -37,6 +38,21 @@
 
 .pointer {
   cursor: pointer;
+}
+
+.modal_account {
+  position: fixed;
+  background-color: transparent;
+  font-weight: 400;
+  font-size: 1rem;
+  top: 10vh;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.hide {
+  display: none;
 }
 
 @media screen and (min-width: 800px) {

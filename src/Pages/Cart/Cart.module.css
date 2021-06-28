@@ -10,7 +10,7 @@
 
 .item_list {
   width: 100%;
-  padding: 2rem;
+  padding: 1rem;
 }
 
 .card {
@@ -82,22 +82,22 @@
   font-weight: 400;
 }
 
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 1024px) {
   .main_container {
     display: flex;
-    max-width: 900px;
+    max-width: 950px;
     margin: 0 auto;
     width: 100%;
   }
 
   .item_list {
-    width: calc(60% - 1rem);
+    width: calc(65% - 1rem);
     padding: 1rem;
     border-right: 1px solid #e9e9eb;
   }
 
   .price {
-    width: 40%;
+    width: 35%;
     padding: 1rem;
     display: flex;
     flex-direction: column;

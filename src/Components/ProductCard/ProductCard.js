@@ -3,6 +3,9 @@ import { useAuth } from "../../Context/AuthContext";
 import { useData } from "../../Context/DataContext";
 import styles from "./ProductCard.module.css";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useRef } from "react";
 
 export const ProductCard = ({ product }) => {
   const {
@@ -11,7 +14,8 @@ export const ProductCard = ({ product }) => {
     discount,
     image,
     name,
-    price,
+    actualPrice,
+    discountedPrice,
     inStock,
     productName,
   } = product;
@@ -19,14 +23,15 @@ export const ProductCard = ({ product }) => {
   const { token } = useAuth();
   const navigate = useNavigate();
   const isInCart = state.cart.find((cartItem) => cartItem._id === id);
+  const toastId = useRef(null);
 
   const addToCart = async (id) => {
     try {
       console.log(id);
       const newCartItem = { product: { _id: id } };
       console.log(token);
+      toastId.current = toast.info("Adding to Cart...");
       if (token) {
-        console.log(newCartItem);
         const response = await axios.post(
           "https://Fitverse-Shop-Backend.pdiresh.repl.co/cart",
           newCartItem,
@@ -34,11 +39,13 @@ export const ProductCard = ({ product }) => {
         );
         console.log(response);
         if (response.status === 200) {
-          return dispatch({ type: "ADD_TO_CART", payload: product });
+          toast.dismiss(toastId.current);
+          dispatch({ type: "ADD_TO_CART", payload: product });
+          toast.success("Added to Cart!!");
         }
-        return "";
+      } else {
+        navigate("/login");
       }
-      navigate("/login");
     } catch (error) {
       console.log(id);
       console.log(error.message);
@@ -84,16 +91,18 @@ export const ProductCard = ({ product }) => {
 
   return (
     <div key={id} className={`${styles.card}`}>
+      {/* <div style={{ width: "75%" }}> */}
       <img
-        // className="card-img"
+        className={`${styles.product_img}`}
         src={image}
-        width="100%"
-        height="auto"
+        // width="175px"
+        // height="175px"
         alt={productName}
       />
+      {/* </div> */}
       <div className={`${styles.product_details} flex flex-col`}>
         <div>
-          <h4> {name} </h4>
+          <h4 className={`${styles.product_name}`}> {name} </h4>
           {/* <span> */}
           {!state.wishlist?.find((wishlistItem) => wishlistItem._id === id) ? (
             <span
@@ -115,19 +124,35 @@ export const ProductCard = ({ product }) => {
         </div>
         <p>{brand}</p>
         <div>
-          Rs. {price}{" "}
+          &#8377;{discountedPrice}{" "}
+          <span style={{ textDecoration: "line-through" }}>
+            &#8377;{actualPrice}
+          </span>
           <span style={{ color: "var(--primary-color)" }}>({discount})</span>
         </div>
       </div>
       <div>
         {!isInCart ? (
           inStock ? (
-            <button
-              className={`${styles.button}`}
-              onClick={() => addToCart(id)}
-            >
-              Add to cart
-            </button>
+            <div>
+              <button
+                className={`${styles.button}`}
+                onClick={() => addToCart(id)}
+              >
+                Add to cart
+              </button>
+              <ToastContainer
+                position="top-right"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover={false}
+              />
+            </div>
           ) : (
             <button
               className={`${styles.button} ${styles.button_disabled}`}

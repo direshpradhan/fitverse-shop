@@ -12,10 +12,10 @@ export const WishlistCard = ({ wishlistItem }) => {
     discount,
     image,
     name,
-    price,
+    discountedPrice,
+    actualPrice,
     productName,
   } = wishlistItem;
-  console.log(price);
   const { token } = useAuth();
   const isInCart = cart.find((cartItem) => cartItem._id === id);
 
@@ -69,15 +69,18 @@ export const WishlistCard = ({ wishlistItem }) => {
       <img
         className={`${styles.card_img}`}
         src={image}
-        width="100%"
-        height="auto"
+        // width="200px"
+        // height="225px"
         alt={productName}
       />
       <div className={`${styles.card_details}`}>
         <h4> {name} </h4>
         <p>{brand}</p>
         <div>
-          Rs. {price}{" "}
+          &#8377;{discountedPrice}{" "}
+          <span style={{ textDecoration: "line-through" }}>
+            &#8377;{actualPrice}
+          </span>
           <span style={{ color: "var(--primary-color)" }}>({discount})</span>
         </div>
         <span

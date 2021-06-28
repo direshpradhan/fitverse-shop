@@ -10,10 +10,14 @@ export const Products = ({ setRoute }) => {
 
   const getSortedData = (data, sortBy) => {
     if (sortBy && sortBy === "LOW_TO_HIGH") {
-      return [...data].sort((item1, item2) => item1.price - item2.price);
+      return [...data].sort(
+        (item1, item2) => item1.discountedPrice - item2.discountedPrice
+      );
     }
     if (sortBy && sortBy === "HIGH_TO_LOW") {
-      return [...data].sort((item1, item2) => item2.price - item1.price);
+      return [...data].sort(
+        (item1, item2) => item2.discountedPrice - item1.discountedPrice
+      );
     }
     return data;
   };
@@ -27,7 +31,7 @@ export const Products = ({ setRoute }) => {
     return data
       .filter((item) => (showInventoryAll ? true : item?.inStock))
       .filter((item) => (fastDeliveryOnly ? item.fastDelivery : true))
-      .filter((item) => item.price < Number(priceSlider));
+      .filter((item) => item.discountedPrice < Number(priceSlider));
   };
 
   const sortedData = getSortedData(products, sortBy);

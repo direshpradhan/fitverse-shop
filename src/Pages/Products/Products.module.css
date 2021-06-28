@@ -29,13 +29,13 @@
   .card_container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-gap: 0.5rem;
+    grid-gap: 0.5rem 0.75rem;
     place-items: center;
     max-width: 1200px;
-    margin-left: 20vw;
+    margin-left: 18.5vw;
   }
 
   .products {
-    margin: 0 1.5rem 5rem;
+    margin: 0 1.5rem 3rem;
   }
 }

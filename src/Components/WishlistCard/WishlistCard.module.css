@@ -3,7 +3,7 @@
   display: flex;
   border: 1px solid #d1d5db;
   border-radius: 0.2rem;
-  width: 80vw;
+  width: 90vw;
   height: max-content;
   padding: 1rem;
   background-color: white;
@@ -12,13 +12,22 @@
 
 .card_img {
   width: 40%;
-  height: 30%;
+  height: 125px;
   margin-right: 1rem;
 }
 
 .card_details {
   height: 100%;
+  width: 50%;
   background-color: white;
+}
+
+.card_details > h4 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .card > div > p {
@@ -54,14 +63,25 @@
   cursor: pointer;
 }
 
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 768px) {
   .card {
-    width: 70vw;
+    width: 75vw;
   }
 
   .card_img {
     width: 35%;
-    height: auto;
+    height: 200px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .card {
+    width: 50vw;
+  }
+
+  .card_img {
+    width: 35%;
+    height: 225px;
   }
 
   .card > div > button {

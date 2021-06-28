@@ -5,7 +5,7 @@ import styles from "./Nav.module.css";
 
 export const Nav = () => {
   const [showModal, setShowModal] = useState(false);
-  const { token, logout } = useAuth();
+  const { token, logout, user } = useAuth();
   const navigate = useNavigate();
   return (
     <nav className={`${styles.nav} `}>
@@ -47,39 +47,9 @@ export const Nav = () => {
               </button>
             ) : (
               // </Link>
-              <div>
-                <span
-                  onClick={() => setShowModal((item) => !item)}
-                  class="material-icons-outlined"
-                >
-                  account_circle
-                </span>
-                <div
-                  style={
-                    showModal
-                      ? {
-                          display: "",
-                          position: "fixed",
-                          right: "1rem",
-                          backgroundColor: "white",
-                          padding: "0.5rem 1rem",
-                          fontWeight: "400",
-                          fontSize: "1rem",
-                        }
-                      : { display: "none" }
-                  }
-                >
-                  <div>Hi, User</div>
-                  <div>My account</div>
-                  <div
-                    onClick={() => {
-                      logout();
-                      setShowModal(false);
-                    }}
-                  >
-                    Logout
-                  </div>
-                </div>
+              <div onClick={() => setShowModal((item) => !item)}>
+                <span class="material-icons-outlined">account_circle</span>
+                Hi, {user?.name.split(" ")[0]}
               </div>
 
               // <button
@@ -88,6 +58,44 @@ export const Nav = () => {
               // >
               //   Logout
               // </button>
+            )}
+            {showModal && (
+              <div
+                onClick={() => setShowModal(false)}
+                className={`${styles.modal_account}`}
+                // style={{ position: "fixed", inset: "0" }}
+              >
+                <div
+                  onMouseLeave={() => setShowModal(false)}
+                  style={
+                    showModal
+                      ? {
+                          display: "",
+                          position: "absolute",
+                          top: "0rem",
+                          right: "1rem",
+                          backgroundColor: "black",
+                          padding: "0.5rem 2rem",
+                          // minHeight: "6rem",
+                          fontWeight: "400",
+                          fontSize: "1rem",
+                        }
+                      : { display: "none" }
+                  }
+                >
+                  {/* <div>Hi, {user?.name.split(" ")[0]}</div>
+                  <div>My Profile</div> */}
+                  <button
+                    className="btn"
+                    onClick={() => {
+                      logout();
+                      setShowModal(false);
+                    }}
+                  >
+                    Logout
+                  </button>
+                </div>
+              </div>
             )}
           </li>
         </ul>

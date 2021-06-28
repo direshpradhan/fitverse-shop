@@ -68,7 +68,7 @@ export const ProductOperationsSidebar = () => {
       <div className={`${styles.border}`}></div>
       <div className={`${styles.section}`}>
         <div className={`${styles.title}`}>Price Range</div>
-        <div>Rs.0 - Rs.{priceSlider}</div>
+        <div>&#8377;0 - &#8377;{priceSlider}</div>
         <input
           type="range"
           min="0"

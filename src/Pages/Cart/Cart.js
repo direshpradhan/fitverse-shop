@@ -6,7 +6,17 @@ export const Cart = () => {
   const { cart } = useData();
 
   const getTotalPrice = (items) => {
-    return items.reduce((total, item) => total + item.price * item.quantity, 0);
+    return items.reduce(
+      (total, item) => total + item.discountedPrice * item.quantity,
+      0
+    );
+  };
+
+  const getTotalDiscountPrice = (items) => {
+    return items.reduce(
+      (total, item) => total + item.actualPrice * item.quantity,
+      0
+    );
   };
 
   return (
@@ -32,11 +42,14 @@ export const Cart = () => {
             </p>
             <div className={`flex ${styles.space_between}`}>
               <span>Total MRP</span>
-              <span>&#8377;{getTotalPrice(cart)}</span>
+              <span>&#8377;{getTotalDiscountPrice(cart)}</span>
             </div>
             <div className={`flex ${styles.space_between}`}>
               <span>Discount on MRP</span>
-              <span>-&#8377;{Math.round(getTotalPrice(cart) * 0.3)}</span>
+              <span>
+                - &#8377;
+                {Math.round(getTotalDiscountPrice(cart) - getTotalPrice(cart))}
+              </span>
             </div>
             <div className={`flex ${styles.space_between}`}>
               <span>Delivery Charges</span>
@@ -58,18 +71,9 @@ export const Cart = () => {
               <span>
                 <span>
                   {getTotalPrice(cart) > 499 ? (
-                    <span>
-                      &#8377;
-                      {getTotalPrice(cart) -
-                        Math.round(getTotalPrice(cart) * 0.3)}
-                    </span>
+                    <span>&#8377;{getTotalPrice(cart)}</span>
                   ) : (
-                    <span>
-                      &#8377;
-                      {getTotalPrice(cart) -
-                        Math.round(getTotalPrice(cart) * 0.3) +
-                        40}
-                    </span>
+                    <span>&#8377;{getTotalPrice(cart) + 40}</span>
                   )}
                 </span>
               </span>

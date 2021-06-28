@@ -11,7 +11,8 @@ export const CartCard = ({ cartItem }) => {
     discount,
     image,
     name,
-    price,
+    discountedPrice,
+    actualPrice,
     productName,
     quantity,
   } = cartItem;
@@ -100,15 +101,26 @@ export const CartCard = ({ cartItem }) => {
       <img
         className={`${styles.card_img}`}
         src={image}
-        width="100%"
-        height="auto"
+        width="200px"
+        height="200px"
         alt={productName}
       />
       <div className={`${styles.card_details}`}>
-        <h4> {name} </h4>
+        <div>
+          <h4 className={`${styles.product_name}`}> {name} </h4>
+          <span
+            className={`material-icons-outlined ${styles.delete_icon}`}
+            onClick={() => deleteFromCart(id)}
+          >
+            close
+          </span>
+        </div>
         <p>{brand}</p>
         <div>
-          Rs. {price}{" "}
+          &#8377;{discountedPrice}{" "}
+          <span style={{ textDecoration: "line-through" }}>
+            &#8377;{actualPrice}
+          </span>{" "}
           <span style={{ color: "var(--primary-color)" }}>({discount})</span>
         </div>
         <div>
@@ -117,21 +129,16 @@ export const CartCard = ({ cartItem }) => {
             onClick={() => updateCount({ id, desc: "decrement" })}
           >
             -
-          </button>{" "}
-          <span className={`${styles.cart_quantity}`}>{quantity}</span>{" "}
+          </button>
+          <span className={`${styles.cart_quantity}`}>{quantity}</span>
           <button
             className={`${styles.button} ${styles.btn_icon} `}
             onClick={() => updateCount({ id, desc: "increment" })}
           >
             +
-          </button>{" "}
+          </button>
           <br />
-          <span
-            className={`${styles.delete_icon} material-icons-outlined`}
-            onClick={() => deleteFromCart(id)}
-          >
-            delete
-          </span>{" "}
+
           {/* <button
             className={`${styles.button}`}
             onClick={() =>

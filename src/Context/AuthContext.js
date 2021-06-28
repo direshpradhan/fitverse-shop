@@ -5,11 +5,18 @@ import { useLocation, useNavigate } from "react-router-dom";
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
-  const { login: isUserLoggedIn, token: savedToken } = JSON.parse(
-    localStorage?.getItem("login")
-  ) || { login: false, token: null };
+  const {
+    login: isUserLoggedIn,
+    token: savedToken,
+    user: savedUser,
+  } = JSON.parse(localStorage?.getItem("login")) || {
+    login: false,
+    token: null,
+    user: null,
+  };
   // const [login, setLogin] = useState(isUserLoggedIn);
   const [token, setToken] = useState(savedToken);
+  const [user, setUser] = useState(savedUser);
   const navigate = useNavigate();
   const { state } = useLocation();
 
@@ -37,10 +44,14 @@ export const AuthContextProvider = ({ children }) => {
     }
   }
 
-  function loginUser({ token }) {
+  function loginUser({ token, user }) {
     setToken(token);
+    setUser(user);
     // setLogin(true);
-    localStorage?.setItem("login", JSON.stringify({ login: true, token }));
+    localStorage?.setItem(
+      "login",
+      JSON.stringify({ login: true, token, user })
+    );
     navigate(state?.from ? state.from : "/");
   }
 
@@ -52,7 +63,7 @@ export const AuthContextProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ loginWithCredentials, logout, token }}>
+    <AuthContext.Provider value={{ loginWithCredentials, logout, token, user }}>
       {children}
     </AuthContext.Provider>
   );
