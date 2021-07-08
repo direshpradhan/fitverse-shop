@@ -7,6 +7,7 @@ import { Nav } from "./Components/Nav/Nav";
 import { Login } from "./Pages/Login/Login";
 import { Signup } from "./Pages/Signup/Signup";
 import { PrivateRoute } from "./PrivateRoute";
+import { ProductDetails } from "./Pages/ProductDetails/ProductDetails";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
 
       <Routes>
         <Route path="/" element={<Products />} />
+        <Route path="/product/:productId" element={<ProductDetails />} />
         <PrivateRoute path="/cart" element={<Cart />} />
         <PrivateRoute path="/wishlist" element={<Wishlist />} />
         <Route path="/login" element={<Login />} />

@@ -12,8 +12,10 @@ export const useData = () => {
 export const DataProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { token } = useAuth();
+  console.log("context....");
 
   useEffect(() => {
+    console.log("entered context...");
     (async function getProducts() {
       try {
         const productsResponse = await axios.get(

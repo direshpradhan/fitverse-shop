@@ -6,6 +6,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRef } from "react";
+// import { ProductDetails } from "../../Pages/ProductDetails/ProductDetails";
 
 export const ProductCard = ({ product }) => {
   const {
@@ -17,7 +18,6 @@ export const ProductCard = ({ product }) => {
     actualPrice,
     discountedPrice,
     inStock,
-    productName,
   } = product;
   const { state, dispatch } = useData();
   const { token } = useAuth();
@@ -97,12 +97,18 @@ export const ProductCard = ({ product }) => {
         src={image}
         // width="175px"
         // height="175px"
-        alt={productName}
+        alt="productImage"
       />
       {/* </div> */}
       <div className={`${styles.product_details} flex flex-col`}>
         <div>
-          <h4 className={`${styles.product_name}`}> {name} </h4>
+          <h4
+            className={`${styles.product_name} pointer`}
+            onClick={() => navigate(`/product/${id}`)}
+          >
+            {" "}
+            {name}{" "}
+          </h4>
           {/* <span> */}
           {!state.wishlist?.find((wishlistItem) => wishlistItem._id === id) ? (
             <span
