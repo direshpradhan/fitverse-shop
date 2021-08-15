@@ -3,8 +3,8 @@ import { useAuth } from "../../Context/AuthContext";
 import { useData } from "../../Context/DataContext";
 import styles from "./ProductCard.module.css";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 import { useRef } from "react";
 // import { ProductDetails } from "../../Pages/ProductDetails/ProductDetails";
 
@@ -23,14 +23,14 @@ export const ProductCard = ({ product }) => {
   const { token } = useAuth();
   const navigate = useNavigate();
   const isInCart = state.cart.find((cartItem) => cartItem._id === id);
-  const toastId = useRef(null);
+  // const toastId = useRef(null);
 
   const addToCart = async (id) => {
     try {
       console.log(id);
       const newCartItem = { product: { _id: id } };
       console.log(token);
-      toastId.current = toast.info("Adding to Cart...");
+      // toastId.current = toast.info("Adding to Cart...");
       if (token) {
         const response = await axios.post(
           "https://Fitverse-Shop-Backend.pdiresh.repl.co/cart",
@@ -39,9 +39,9 @@ export const ProductCard = ({ product }) => {
         );
         console.log(response);
         if (response.status === 200) {
-          toast.dismiss(toastId.current);
+          // toast.dismiss(toastId.current);
           dispatch({ type: "ADD_TO_CART", payload: product });
-          toast.success("Added to Cart!!");
+          // toast.success("Added to Cart!!");
         }
       } else {
         navigate("/login");
@@ -147,7 +147,7 @@ export const ProductCard = ({ product }) => {
               >
                 Add to cart
               </button>
-              <ToastContainer
+              {/* <ToastContainer
                 position="top-right"
                 autoClose={2000}
                 hideProgressBar={false}
@@ -157,7 +157,7 @@ export const ProductCard = ({ product }) => {
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover={false}
-              />
+              /> */}
             </div>
           ) : (
             <button
