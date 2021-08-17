@@ -29,7 +29,7 @@ export const CartCard = ({ cartItem }) => {
           { headers: { authorization: `Bearer ${token}` } }
         );
         if (response.status === 200) {
-          dispatch({ type: "INCREMENT", payload: id });
+          dispatch({ type: "INCREMENT_QUANTITY", payload: id });
         }
       } else {
         const response = await axios.post(
@@ -38,7 +38,7 @@ export const CartCard = ({ cartItem }) => {
           { headers: { authorization: `Bearer ${token}` } }
         );
         if (response.status === 200) {
-          dispatch({ type: "DECREMENT", payload: id });
+          dispatch({ type: "DECREMENT_QUANTITY", payload: id });
         }
       }
     } catch (error) {

@@ -5,7 +5,7 @@ import styles from "./ProductCard.module.css";
 import axios from "axios";
 // import { ToastContainer, toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
-import { useRef } from "react";
+// import { useRef } from "react";
 // import { ProductDetails } from "../../Pages/ProductDetails/ProductDetails";
 
 export const ProductCard = ({ product }) => {

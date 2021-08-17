@@ -38,7 +38,7 @@ export const reducer = (state, action) => {
       }
       return state;
 
-    case "INCREMENT":
+    case "INCREMENT_QUANTITY":
       const increasedQuantity = state.cart.map((cartItem) => {
         if (cartItem._id === action.payload) {
           return { ...cartItem, quantity: cartItem.quantity + 1 };
@@ -47,7 +47,7 @@ export const reducer = (state, action) => {
       });
       return { ...state, cart: increasedQuantity };
 
-    case "DECREMENT":
+    case "DECREMENT_QUANTITY":
       const decreasedQuantity = state.cart
         .map((cartItem) => {
           if (cartItem._id === action.payload) {
@@ -96,7 +96,10 @@ export const reducer = (state, action) => {
         return {
           ...state,
           cart: changedCart,
-          wishlist: [...state.wishlist, action.payload],
+          wishlist: [
+            ...state.wishlist,
+            { ...action.payload, quantity: undefined },
+          ],
         };
       }
       return { ...state, cart: changedCart };
