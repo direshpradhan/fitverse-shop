@@ -1,7 +1,9 @@
-import axios from "axios";
+// import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "../../Context/AuthContext";
+import { signupService } from "../../services";
+
 import styles from "../Login/Login.module.css";
 
 export const Signup = () => {
@@ -17,10 +19,7 @@ export const Signup = () => {
 
   async function signupHandler(event) {
     event.preventDefault();
-    const response = await axios.post(
-      "https://Fitverse-Shop-Backend.pdiresh.repl.co/signup",
-      { name, email, password }
-    );
+    const response = await signupService(name, email, password);
     if (response.status === 200) {
       navigate("/login");
     }
@@ -28,7 +27,7 @@ export const Signup = () => {
 
   return (
     <div className={`${styles.main}`}>
-      <h2>Signup</h2>
+      <h2>Signup to Fitverse Shop</h2>
       {/* <label>
         email:{" "} */}
       <form onSubmit={signupHandler}>

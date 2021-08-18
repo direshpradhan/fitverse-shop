@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useAuth } from "../../Context/AuthContext";
 import { useData } from "../../Context/DataContext";
+import { removeFromWishlistService, moveToCartService } from "../../services";
 import styles from "./WishlistCard.module.css";
 
 export const WishlistCard = ({ wishlistItem }) => {
@@ -20,47 +20,14 @@ export const WishlistCard = ({ wishlistItem }) => {
   const isInCart = cart.find((cartItem) => cartItem._id === id);
 
   const removeFromWishlist = async (id) => {
-    try {
-      const response = await axios.delete(
-        `https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist/${id}`,
-        { headers: { authorization: `Bearer ${token}` } }
-      );
-      if (response.status === 200) {
-        dispatch({ type: "REMOVE_WISHLIST_ITEM", payload: id });
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
+    removeFromWishlistService(id, dispatch);
   };
 
   const moveToCart = async (id) => {
-    try {
-      if (isInCart) {
-        console.log("inside");
-        const wishResponse = await axios.delete(
-          `https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist/${id}`,
-          { headers: { authorization: `Bearer ${token}` } }
-        );
-        if (wishResponse.status === 200) {
-          dispatch({ type: "MOVE_TO_CART", payload: wishlistItem });
-        }
-      } else {
-        const wishResponse = await axios.delete(
-          `https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist/${id}`,
-          { headers: { authorization: `Bearer ${token}` } }
-        );
-        const cartResponse = await axios.post(
-          "https://Fitverse-Shop-Backend.pdiresh.repl.co/cart",
-          { product: { _id: id, quantity: 1 } },
-          { headers: { authorization: `Bearer ${token}` } }
-        );
-        if (wishResponse.status === 200 && cartResponse.status === 200) {
-          dispatch({ type: "MOVE_TO_CART", payload: wishlistItem });
-        }
-      }
-    } catch (error) {
-      console.log(id);
-      console.log(error.message);
+    if (isInCart) {
+      removeFromWishlistService(id, dispatch);
+    } else {
+      moveToCartService(id, wishlistItem, dispatch);
     }
   };
 

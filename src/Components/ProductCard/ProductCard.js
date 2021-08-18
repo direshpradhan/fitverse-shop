@@ -2,11 +2,14 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
 import { useData } from "../../Context/DataContext";
 import styles from "./ProductCard.module.css";
-import axios from "axios";
+import {
+  addToCartService,
+  addToWishlistService,
+  removeFromWishlistService,
+} from "../../services";
 // import { ToastContainer, toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 // import { useRef } from "react";
-// import { ProductDetails } from "../../Pages/ProductDetails/ProductDetails";
 
 export const ProductCard = ({ product }) => {
   const {
@@ -23,70 +26,27 @@ export const ProductCard = ({ product }) => {
   const { token } = useAuth();
   const navigate = useNavigate();
   const isInCart = state.cart.find((cartItem) => cartItem._id === id);
+  const isInWishList = state.wishlist?.find(
+    (wishlistItem) => wishlistItem._id === id
+  );
   // const toastId = useRef(null);
 
-  const addToCart = async (id) => {
-    try {
-      console.log(id);
-      const newCartItem = { product: { _id: id } };
-      console.log(token);
-      // toastId.current = toast.info("Adding to Cart...");
-      if (token) {
-        const response = await axios.post(
-          "https://Fitverse-Shop-Backend.pdiresh.repl.co/cart",
-          newCartItem,
-          { headers: { authorization: `Bearer ${token}` } }
-        );
-        console.log(response);
-        if (response.status === 200) {
-          // toast.dismiss(toastId.current);
-          dispatch({ type: "ADD_TO_CART", payload: product });
-          // toast.success("Added to Cart!!");
-        }
-      } else {
-        navigate("/login");
-      }
-    } catch (error) {
-      console.log(id);
-      console.log(error.message);
-    }
+  const addToCart = (id) => {
+    const newCartItem = { product: { _id: id } };
+    token
+      ? addToCartService(newCartItem, product, dispatch)
+      : navigate("/login");
   };
 
   const addToWishlist = async (id) => {
-    try {
-      const newWishlistItem = { product: { _id: id } };
-      if (token) {
-        const response = await axios.post(
-          "https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist",
-          newWishlistItem,
-          { headers: { authorization: `Bearer ${token}` } }
-        );
-        if (response.status === 200) {
-          return dispatch({ type: "ADD_TO_WISHLIST", payload: product });
-        }
-        return "";
-      }
-      navigate("/login");
-    } catch (error) {
-      console.log(error.message);
-    }
+    const newWishlistItem = { product: { _id: id } };
+    token
+      ? addToWishlistService(newWishlistItem, product, dispatch)
+      : navigate("/login");
   };
 
-  const removeFromWishlist = async (id) => {
-    try {
-      const response = await axios.delete(
-        `https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist/${id}`,
-        { headers: { authorization: `Bearer ${token}` } }
-      );
-      if (response.status === 200) {
-        dispatch({
-          type: "REMOVE_WISHLIST_ITEM",
-          payload: id,
-        });
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
+  const removeFromWishlist = (id) => {
+    removeFromWishlistService(id, dispatch);
   };
 
   return (
@@ -109,8 +69,8 @@ export const ProductCard = ({ product }) => {
             {" "}
             {name}{" "}
           </h4>
-          {/* <span> */}
-          {!state.wishlist?.find((wishlistItem) => wishlistItem._id === id) ? (
+
+          {!isInWishList ? (
             <span
               className={`${styles.pointer} material-icons-outlined`}
               onClick={() => addToWishlist(id)}
@@ -126,7 +86,6 @@ export const ProductCard = ({ product }) => {
               favorite
             </span>
           )}
-          {/* </span>{" "} */}
         </div>
         <p>{brand}</p>
         <div>

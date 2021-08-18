@@ -2,6 +2,8 @@ import { createContext, useContext, useEffect, useReducer } from "react";
 import { initialState, reducer } from "../Reducer/reducer";
 import axios from "axios";
 import { useAuth } from "./AuthContext";
+import { getCartProducts, getWishlistProducts } from "../services";
+import { API_URL } from "../util/Constants";
 
 const DataContext = createContext();
 
@@ -13,14 +15,13 @@ export const DataProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { token } = useAuth();
   console.log("context....");
+  console.log(token);
 
   useEffect(() => {
     console.log("entered context...");
     (async function getProducts() {
       try {
-        const productsResponse = await axios.get(
-          "https://Fitverse-Shop-Backend.pdiresh.repl.co/products"
-        );
+        const productsResponse = await axios.get(`${API_URL}/products`);
         productsResponse.status === 200 &&
           dispatch({
             type: "INITIALIZE_PRODUCTS",
@@ -28,17 +29,8 @@ export const DataProvider = ({ children }) => {
           });
         console.log(token);
         if (token) {
-          const cartResponse = await axios.get(
-            "https://Fitverse-Shop-Backend.pdiresh.repl.co/cart",
-            { headers: { authorization: `Bearer ${token}` } }
-          );
-          const wishlistResponse = await axios.get(
-            "https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist",
-            { headers: { authorization: `Bearer ${token}` } }
-          );
-
-          console.log("cart", cartResponse);
-          console.log("wishlist", wishlistResponse);
+          const cartResponse = await getCartProducts();
+          const wishlistResponse = await getWishlistProducts();
           cartResponse.status === 200 &&
             dispatch({
               type: "INITIALIZE_CART",
@@ -49,12 +41,14 @@ export const DataProvider = ({ children }) => {
               type: "INITIALIZE_WISHLIST",
               payload: wishlistResponse.data.wishlistItems,
             });
+        } else {
+          dispatch({ type: "RESET_STATE" });
         }
       } catch (error) {
         console.log(error);
       }
     })();
-  }, []);
+  }, [token]);
 
   return (
     <DataContext.Provider

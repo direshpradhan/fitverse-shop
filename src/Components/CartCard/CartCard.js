@@ -1,6 +1,11 @@
-import axios from "axios";
 import { useAuth } from "../../Context/AuthContext";
 import { useData } from "../../Context/DataContext";
+import {
+  decrementQuantityService,
+  incrementQuantityService,
+  moveToWishlistService,
+  removeProductFromCartService,
+} from "../../services";
 import styles from "./CartCard.module.css";
 
 export const CartCard = ({ cartItem }) => {
@@ -21,78 +26,22 @@ export const CartCard = ({ cartItem }) => {
   const isInWishlist = wishlist?.find((wishItem) => wishItem._id === id);
 
   const updateCount = async ({ id, desc }) => {
-    try {
-      if (desc === "increment") {
-        const response = await axios.post(
-          `https://Fitverse-Shop-Backend.pdiresh.repl.co/cart/${id}`,
-          { quantity: quantity + 1 },
-          { headers: { authorization: `Bearer ${token}` } }
-        );
-        if (response.status === 200) {
-          dispatch({ type: "INCREMENT_QUANTITY", payload: id });
-        }
-      } else {
-        const response = await axios.post(
-          `https://Fitverse-Shop-Backend.pdiresh.repl.co/cart/${id}`,
-          { quantity: quantity - 1 },
-          { headers: { authorization: `Bearer ${token}` } }
-        );
-        if (response.status === 200) {
-          dispatch({ type: "DECREMENT_QUANTITY", payload: id });
-        }
-      }
-    } catch (error) {
-      console.log(error.message);
+    if (desc === "increment") {
+      incrementQuantityService(id, quantity, dispatch);
+    } else {
+      decrementQuantityService(id, quantity, dispatch);
     }
   };
 
-  const deleteFromCart = async (id) => {
-    try {
-      console.log("Del");
-      const response = await axios.delete(
-        `https://Fitverse-Shop-Backend.pdiresh.repl.co/cart/${id}`,
-        { headers: { authorization: `Bearer ${token}` } }
-      );
-      console.log(response);
-
-      if (response.status === 200) {
-        dispatch({ type: "REMOVE_CART_ITEM", payload: id });
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
+  const deleteFromCart = (id) => {
+    removeProductFromCartService(id, dispatch);
   };
 
   const moveToWishlist = async (id) => {
-    try {
-      if (isInWishlist) {
-        const cartResponse = await axios.delete(
-          `https://Fitverse-Shop-Backend.pdiresh.repl.co/cart/${id}`,
-          { headers: { authorization: `Bearer ${token}` } }
-        );
-        if (cartResponse.status === 200) {
-          dispatch({ type: "MOVE_TO_WISHLIST", payload: cartItem });
-        }
-      } else {
-        const cartResponse = await axios.delete(
-          `https://Fitverse-Shop-Backend.pdiresh.repl.co/cart/${id}`,
-          { headers: { authorization: `Bearer ${token}` } }
-        );
-
-        const wishResponse = await axios.post(
-          "https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist",
-          { product: { _id: id } },
-          { headers: { authorization: `Bearer ${token}` } }
-        );
-        console.log(cartResponse);
-        console.log(wishResponse);
-
-        if (wishResponse.status === 200 && cartResponse.status === 200) {
-          dispatch({ type: "MOVE_TO_WISHLIST", payload: cartItem });
-        }
-      }
-    } catch (error) {
-      console.log(error.message);
+    if (isInWishlist) {
+      removeProductFromCartService(id, dispatch);
+    } else {
+      moveToWishlistService(id, cartItem, dispatch);
     }
   };
 

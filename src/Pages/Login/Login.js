@@ -20,7 +20,7 @@ export const Login = () => {
 
   return (
     <div className={`${styles.main}`}>
-      <h2>Login</h2>
+      <h2>Login to Fitverse Shop</h2>
       {/* <label>
         email:{" "} */}
       <form onSubmit={(event) => loginHandler(event)}>

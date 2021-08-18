@@ -1,8 +1,16 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { loginService } from "../services";
 
 const AuthContext = createContext();
+
+const setupAuthHeaderForServiceCalls = (token) => {
+  if (token) {
+    return (axios.defaults.headers.common["Authorization"] = `Bearer ${token}`);
+  }
+  delete axios.defaults.headers.common["Authorization"];
+};
 
 export const AuthContextProvider = ({ children }) => {
   const {
@@ -20,18 +28,6 @@ export const AuthContextProvider = ({ children }) => {
   const navigate = useNavigate();
   const { state } = useLocation();
 
-  // useEffect(() => {
-  //   const loginStatus = JSON.parse(localStorage?.getItem("login"));
-  //   loginStatus?.login && setLogin(true);
-  // }, []);
-
-  function loginService(email, password) {
-    return axios.post("https://Fitverse-Shop-Backend.pdiresh.repl.co/login", {
-      email,
-      password,
-    });
-  }
-
   async function loginWithCredentials(email, password) {
     try {
       console.log("entered.....");
@@ -40,14 +36,14 @@ export const AuthContextProvider = ({ children }) => {
         loginUser(response.data);
       }
     } catch (error) {
-      console.log("Sahi password nahi pata kya?", error);
+      console.log("Wrong Password!! Try again.", error);
     }
   }
 
   function loginUser({ token, user }) {
     setToken(token);
     setUser(user);
-    // setLogin(true);
+    setupAuthHeaderForServiceCalls(token);
     localStorage?.setItem(
       "login",
       JSON.stringify({ login: true, token, user })
@@ -57,10 +53,14 @@ export const AuthContextProvider = ({ children }) => {
 
   function logout() {
     localStorage.removeItem("login");
-    // setLogin(false);
-    setToken(null);
+    setupAuthHeaderForServiceCalls(null);
+    token && setToken(null);
     navigate("/");
   }
+
+  useEffect(() => {
+    token && setupAuthHeaderForServiceCalls(token);
+  });
 
   return (
     <AuthContext.Provider value={{ loginWithCredentials, logout, token, user }}>

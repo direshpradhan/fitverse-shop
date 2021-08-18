@@ -152,6 +152,18 @@ export const reducer = (state, action) => {
         filterByCategories: state.filterByCategories.concat(action.payload),
       };
 
+    case "RESET_STATE":
+      return {
+        ...state,
+        cart: [],
+        wishlist: [],
+        sortBy: null,
+        fastDeliveryOnly: false,
+        showInventoryAll: false,
+        filterByCategories: [],
+        priceSlider: 50000,
+      };
+
     default:
       return state;
   }
