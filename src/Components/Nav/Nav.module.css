@@ -9,7 +9,7 @@
   justify-content: space-between;
   align-items: center;
   z-index: 2;
-  box-shadow: 0 1px 2px 0 rgb(148 150 159 / 30%);
+  box-shadow: 0 1px 10px 0 rgb(148 150 159 / 30%);
   background-color: white;
   font-weight: 700;
   font-size: 1.25rem;
@@ -19,11 +19,19 @@
   font-size: 1.5rem;
 }
 
+.btn {
+  background-color: var(--primary-color);
+  padding: 0.5rem 0.9rem;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  font-size: 0.9rem;
+}
+
 .btn_transparent {
   background-color: transparent;
   color: black;
   font-size: 1.1rem;
-  /* text-transform: uppercase; */
   padding: 0;
   margin: 0;
   margin-bottom: 0.5rem;
@@ -34,10 +42,6 @@
 
 .btn_transparent:hover {
   opacity: 0.8;
-}
-
-.pointer {
-  cursor: pointer;
 }
 
 .modal_account {
@@ -55,7 +59,27 @@
   display: none;
 }
 
-@media screen and (min-width: 800px) {
+.badge_icon {
+  position: relative;
+}
+
+.badge {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: -0.75rem;
+  right: -0.4rem;
+  border: 2px solid white;
+  height: 22px;
+  width: 22px;
+  color: white;
+  font-size: 0.9rem;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+}
+
+@media screen and (min-width: 768px) {
   .nav {
     padding: 1rem 1.5rem;
   }

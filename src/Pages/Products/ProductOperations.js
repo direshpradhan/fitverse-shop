@@ -277,6 +277,7 @@ export const ProductOperations = () => {
               </ul>
               <hr />
               <h4>Price Range</h4>
+              <div>&#8377;0 - &#8377;{priceSlider}</div>
               <ul>
                 <li>
                   <input
