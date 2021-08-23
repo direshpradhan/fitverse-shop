@@ -1,9 +1,12 @@
 import { CartCard } from "../../Components/CartCard/CartCard";
+import { useAuth } from "../../Context/AuthContext";
 import { useData } from "../../Context/DataContext";
+import { PaymentService } from "../../services/paymentService/payment.services";
 import styles from "./Cart.module.css";
 
 export const Cart = () => {
   const { cart } = useData();
+  const { user } = useAuth();
 
   const getTotalPrice = (items) => {
     return items.reduce(
@@ -18,6 +21,9 @@ export const Cart = () => {
       0
     );
   };
+
+  const totalBillAmount =
+    getTotalPrice > 499 ? getTotalPrice(cart) : getTotalPrice(cart) + 40;
 
   return (
     <div className="App">
@@ -69,16 +75,15 @@ export const Cart = () => {
             <div className={`flex ${styles.space_between}`}>
               <span>Total Amount</span>
               <span>
-                <span>
-                  {getTotalPrice(cart) > 499 ? (
-                    <span>&#8377;{getTotalPrice(cart)}</span>
-                  ) : (
-                    <span>&#8377;{getTotalPrice(cart) + 40}</span>
-                  )}
-                </span>
+                <span>&#8377; {totalBillAmount}</span>
               </span>
             </div>
-            <button className={`${styles.button}`}>Place Order</button>
+            <button
+              className={`${styles.button}`}
+              onClick={() => PaymentService(totalBillAmount, user)}
+            >
+              Place Order
+            </button>
           </div>
         </div>
       ) : (
