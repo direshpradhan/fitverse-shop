@@ -3,7 +3,6 @@
   flex-direction: column;
   max-width: 25rem;
   justify-content: center;
-  /* align-items: center; */
   min-height: 75vh;
   margin: 0 auto;
 }
@@ -31,11 +30,32 @@
   padding: 1rem;
   cursor: pointer;
   text-align: center;
-  font-size: 0.9rem;
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
 }
 
-.button_transparent {
-  background-color: transparent;
-  color: black;
-  font-size: 0.9rem;
+.button:hover {
+  opacity: 0.95;
+}
+
+.signup_link {
+  font-weight: 650;
+  color: var(--primary-color);
+}
+
+.signup_link:hover {
+  text-decoration: underline;
+}
+
+.guest {
+  text-align: center;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  color: var(--primary-color);
+  font-weight: 650;
+  /* text-decoration: underline; */
+}
+
+.guest:hover {
+  text-decoration: underline;
 }

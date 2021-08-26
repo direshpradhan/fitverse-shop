@@ -27,6 +27,7 @@ export const Login = () => {
         <input
           placeholder="Email"
           className={`${styles.input}`}
+          value={email}
           onChange={(event) => setEmail(event.target.value)}
           type="text"
         />
@@ -37,26 +38,33 @@ export const Login = () => {
         <input
           placeholder="Password"
           className={`${styles.input}`}
+          value={password}
           onChange={(event) => setPassword(event.target.value)}
           type="password"
         />
-        {/* </label> */}
+
         <br />
-        <button
-          className={`${styles.button}`}
-          type="submit"
-          // onClick={() => loginHandler(event)}
-        >
+        <button className={`${styles.button}`} type="submit">
           Login
         </button>
       </form>
-      <br />
-      <button
-        className={`${styles.button} ${styles.button_transparent}`}
-        onClick={() => navigate("/signup")}
+
+      <div
+        onClick={() => {
+          setEmail(() => "test@test.com");
+          setPassword(() => "test@123");
+        }}
+        className={`${styles.guest}`}
       >
-        New to Fitverse? Sign up!
-      </button>
+        Login as Guest
+      </div>
+
+      <div className={`text-centre`}>
+        New to Fitverse?{" "}
+        <a href="/signup" className={`${styles.signup_link}`}>
+          Sign up!
+        </a>
+      </div>
     </div>
   );
 };
