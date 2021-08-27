@@ -10,7 +10,9 @@ export const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { loginWithCredentials, token } = useAuth();
+  const [signupStatus, setSignupStatus] = useState("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+  const { loginWithCredentials, loginUser, token } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,9 +21,36 @@ export const Signup = () => {
 
   async function signupHandler(event) {
     event.preventDefault();
-    const response = await signupService(name, email, password);
-    if (response.status === 200) {
-      navigate("/login");
+    try {
+      if (name !== "" && email !== "" && password !== "") {
+        setSignupStatus("loading");
+        const {
+          data: { success, message, user, token },
+          status,
+        } = await signupService(name, email, password);
+        console.log(user);
+        if (status === 200) {
+          setSignupStatus("success");
+          loginUser({ token, user });
+          // navigate("/login");
+        }
+      } else {
+        setSignupStatus("failed");
+        if (name === "") return setErrorMessage("Enter name !!");
+
+        name !== "" && email === ""
+          ? setErrorMessage("Enter email !!")
+          : setErrorMessage("Enter password !!");
+      }
+    } catch (error) {
+      setSignupStatus("failed");
+      setName("");
+      setEmail("");
+      setPassword("");
+      const { message } = error.response.data;
+      console.log(message);
+      setErrorMessage(message);
+      console.log("Error with signup!!", error);
     }
   }
 
@@ -30,6 +59,13 @@ export const Signup = () => {
       <h2>Signup to Fitverse Shop</h2>
       {/* <label>
         email:{" "} */}
+
+      {signupStatus === "failed" && (
+        <div class={`alert alert-error flex ${styles.alert}`}>
+          <span class="material-icons-outlined"> error_outline </span>
+          <span>{errorMessage}</span>
+        </div>
+      )}
       <form onSubmit={signupHandler}>
         <input
           placeholder="Name"
@@ -60,16 +96,16 @@ export const Signup = () => {
         {/* </label> */}
         <br />
         <button className={`${styles.button}`} type="submit">
-          Signup
+          {signupStatus === "loading" ? "Signing up. Please wait..." : "Signup"}
         </button>
       </form>
       <br />
-      <button
-        onClick={() => navigate("/login")}
-        className={`${styles.button} ${styles.button_transparent}`}
-      >
-        Already have an account? Log In!
-      </button>
+      <div className="text-centre">
+        Already have an account?{" "}
+        <a href="/login" className={`${styles.link}`}>
+          Log In!
+        </a>
+      </div>
     </div>
   );
 };

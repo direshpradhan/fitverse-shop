@@ -6,6 +6,8 @@ import styles from "./Login.module.css";
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loginStatus, setLoginStatus] = useState("idle");
+  const [errorMessage, setErrorMessage] = useState("");
   const { loginWithCredentials, token } = useAuth();
   const navigate = useNavigate();
 
@@ -13,9 +15,27 @@ export const Login = () => {
     token && navigate("/");
   }, []);
 
-  function loginHandler(event) {
+  async function loginHandler(event) {
     event.preventDefault();
-    loginWithCredentials(email, password);
+    setLoginStatus("loading");
+
+    if (email !== "" && password !== "") {
+      const { message, success } = await loginWithCredentials(email, password);
+
+      if (success) {
+        setLoginStatus("success");
+      } else {
+        setLoginStatus("failed");
+        setErrorMessage(message);
+        setEmail("");
+        setPassword("");
+      }
+    } else {
+      setLoginStatus("failed");
+      email === ""
+        ? setErrorMessage("Enter email !!")
+        : setErrorMessage("Enter password !!");
+    }
   }
 
   return (
@@ -23,6 +43,17 @@ export const Login = () => {
       <h2>Login to Fitverse Shop</h2>
       {/* <label>
         email:{" "} */}
+
+      {loginStatus === "failed" && (
+        <div class={`alert alert-error flex ${styles.alert}`}>
+          <span class="material-icons-outlined alert-icon">
+            {" "}
+            error_outline{" "}
+          </span>
+          {errorMessage}
+        </div>
+      )}
+
       <form onSubmit={(event) => loginHandler(event)}>
         <input
           placeholder="Email"
@@ -45,7 +76,7 @@ export const Login = () => {
 
         <br />
         <button className={`${styles.button}`} type="submit">
-          Login
+          {loginStatus === "loading" ? "Logging In. Please wait..." : "Login"}
         </button>
       </form>
 
@@ -61,7 +92,7 @@ export const Login = () => {
 
       <div className={`text-centre`}>
         New to Fitverse?{" "}
-        <a href="/signup" className={`${styles.signup_link}`}>
+        <a href="/signup" className={`${styles.link}`}>
           Sign up!
         </a>
       </div>

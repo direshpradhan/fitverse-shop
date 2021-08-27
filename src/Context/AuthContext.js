@@ -32,15 +32,26 @@ export const AuthContextProvider = ({ children }) => {
     try {
       console.log("entered.....");
       const response = await loginService(email, password);
-      if (response.status === 200) {
+      console.log(response);
+      const {
+        data: { message, success },
+        status,
+      } = response;
+
+      if (status === 200) {
+        console.log("status 200");
         loginUser(response.data);
       }
+      return { message, success };
     } catch (error) {
+      const { message, success } = error?.response?.data;
       console.log("Wrong Password!! Try again.", error);
+      return { message, success };
     }
   }
 
   function loginUser({ token, user }) {
+    console.log("signup se aaya hu...");
     setToken(token);
     setUser(user);
     setupAuthHeaderForServiceCalls(token);
@@ -63,7 +74,9 @@ export const AuthContextProvider = ({ children }) => {
   });
 
   return (
-    <AuthContext.Provider value={{ loginWithCredentials, logout, token, user }}>
+    <AuthContext.Provider
+      value={{ loginWithCredentials, loginUser, logout, token, user }}
+    >
       {children}
     </AuthContext.Provider>
   );

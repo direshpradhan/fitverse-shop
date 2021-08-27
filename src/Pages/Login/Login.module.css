@@ -31,19 +31,19 @@
   cursor: pointer;
   text-align: center;
   font-size: 1rem;
-  margin-bottom: 0.75rem;
+  margin: 0.75rem 0;
 }
 
 .button:hover {
   opacity: 0.95;
 }
 
-.signup_link {
+.link {
   font-weight: 650;
   color: var(--primary-color);
 }
 
-.signup_link:hover {
+.link:hover {
   text-decoration: underline;
 }
 
@@ -58,4 +58,11 @@
 
 .guest:hover {
   text-decoration: underline;
+}
+
+.alert {
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
 }
