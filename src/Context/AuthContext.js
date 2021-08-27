@@ -28,6 +28,16 @@ export const AuthContextProvider = ({ children }) => {
   const navigate = useNavigate();
   const { state } = useLocation();
 
+  axios.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error?.response?.status === 403) {
+        logout();
+      }
+      return Promise.reject(error);
+    }
+  );
+
   async function loginWithCredentials(email, password) {
     try {
       console.log("entered.....");

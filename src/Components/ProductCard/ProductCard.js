@@ -21,6 +21,7 @@ export const ProductCard = ({ product }) => {
     actualPrice,
     discountedPrice,
     inStock,
+    fastDelivery,
   } = product;
   const { state, dispatch } = useData();
   const { token } = useAuth();
