@@ -2,6 +2,10 @@
   position: relative;
 }
 
+.image {
+  width: 90%;
+}
+
 .image_container {
   justify-content: center;
 }
@@ -43,6 +47,8 @@
 
 .product_info {
   margin-bottom: 2rem;
+  width: 95%;
+  margin: 0 auto;
 }
 
 .product_info > p {
@@ -76,7 +82,7 @@
 
 .cart_button {
   background-color: var(--primary-color);
-  padding: 1rem 1.5rem;
+  padding: 0.5rem 1.5rem;
   margin: 0 0.1rem;
   width: 49%;
   color: white;
@@ -90,7 +96,7 @@
 }
 
 .wishlist_button {
-  padding: 1rem 1.5rem;
+  padding: 0.5rem 1.5rem;
   margin: 0 0.1rem;
   width: 49%;
   border-radius: 0.25rem;
@@ -143,6 +149,14 @@
     margin: 1rem 0;
   }
 
+  .cart_button {
+    padding: 0.75rem 1.5rem;
+  }
+
+  .wishlist_button {
+    padding: 0.75rem 1.5rem;
+  }
+
   .similar_products_title {
     margin-left: 2rem;
   }
@@ -178,5 +192,13 @@
 
   .button_container {
     margin-top: 3rem;
+  }
+
+  .cart_button {
+    padding: 1rem 1.5rem;
+  }
+
+  .wishlist_button {
+    padding: 1rem 1.5rem;
   }
 }

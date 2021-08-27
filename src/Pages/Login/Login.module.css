@@ -1,7 +1,7 @@
 .main {
   display: flex;
   flex-direction: column;
-  max-width: 25rem;
+  max-width: 95%;
   justify-content: center;
   min-height: 75vh;
   margin: 0 auto;
@@ -9,7 +9,7 @@
 
 .main > h2 {
   margin-bottom: 2rem;
-  font-size: 2rem;
+  font-size: 1.75rem;
 }
 
 .input {
@@ -53,7 +53,6 @@
   cursor: pointer;
   color: var(--primary-color);
   font-weight: 650;
-  /* text-decoration: underline; */
 }
 
 .guest:hover {
@@ -65,4 +64,14 @@
   justify-content: center;
   align-items: center;
   gap: 0.25rem;
+}
+
+@media screen and (min-width: 768px) {
+  .main {
+    max-width: 25rem;
+  }
+
+  .main > h2 {
+    font-size: 2rem;
+  }
 }
