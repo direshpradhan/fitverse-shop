@@ -4,6 +4,11 @@ import { useAuth } from "../../Context/AuthContext";
 import { useData } from "../../Context/DataContext";
 import axios from "axios";
 import styles from "./ProductDetails.module.css";
+import {
+  addToCartService,
+  addToWishlistService,
+  removeFromWishlistService,
+} from "../../services";
 
 export const ProductDetails = (_) => {
   const { productId } = useParams();
@@ -27,17 +32,18 @@ export const ProductDetails = (_) => {
       console.log(token);
       // toastId.current = toast.info("Adding to Cart...");
       if (token) {
-        const response = await axios.post(
-          "https://Fitverse-Shop-Backend.pdiresh.repl.co/cart",
-          newCartItem,
-          { headers: { authorization: `Bearer ${token}` } }
-        );
-        console.log(response);
-        if (response.status === 200) {
-          // toast.dismiss(toastId.current);
-          dispatch({ type: "ADD_TO_CART", payload: product });
-          // toast.success("Added to Cart!!");
-        }
+        // const response = await axios.post(
+        //   "https://Fitverse-Shop-Backend.pdiresh.repl.co/cart",
+        //   newCartItem,
+        //   { headers: { authorization: `Bearer ${token}` } }
+        // );
+        // console.log(response);
+        // if (response.status === 200) {
+        //   // toast.dismiss(toastId.current);
+        //   dispatch({ type: "ADD_TO_CART", payload: product });
+        //   // toast.success("Added to Cart!!");
+        // }
+        addToCartService(newCartItem, product, dispatch);
       } else {
         console.log("login");
         navigate("/login");
@@ -53,15 +59,16 @@ export const ProductDetails = (_) => {
       console.log("wishlist");
       const newWishlistItem = { product: { _id: id } };
       if (token) {
-        const response = await axios.post(
-          "https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist",
-          newWishlistItem,
-          { headers: { authorization: `Bearer ${token}` } }
-        );
-        if (response.status === 200) {
-          return dispatch({ type: "ADD_TO_WISHLIST", payload: product });
-        }
-        return "";
+        // const response = await axios.post(
+        //   "https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist",
+        //   newWishlistItem,
+        //   { headers: { authorization: `Bearer ${token}` } }
+        // );
+        // if (response.status === 200) {
+        //   return dispatch({ type: "ADD_TO_WISHLIST", payload: product });
+        // }
+        // return "";
+        return addToWishlistService(newWishlistItem, product, dispatch);
       }
       navigate("/login");
     } catch (error) {
@@ -71,16 +78,17 @@ export const ProductDetails = (_) => {
 
   const removeFromWishlist = async (id) => {
     try {
-      const response = await axios.delete(
-        `https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist/${id}`,
-        { headers: { authorization: `Bearer ${token}` } }
-      );
-      if (response.status === 200) {
-        dispatch({
-          type: "REMOVE_WISHLIST_ITEM",
-          payload: id,
-        });
-      }
+      // const response = await axios.delete(
+      //   `https://Fitverse-Shop-Backend.pdiresh.repl.co/wishlist/${id}`,
+      //   { headers: { authorization: `Bearer ${token}` } }
+      // );
+      // if (response.status === 200) {
+      //   dispatch({
+      //     type: "REMOVE_WISHLIST_ITEM",
+      //     payload: id,
+      //   });
+      // }
+      removeFromWishlistService(id, dispatch);
     } catch (error) {
       console.log(error.message);
     }
