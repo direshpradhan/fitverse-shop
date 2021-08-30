@@ -25,14 +25,12 @@ export const Nav = () => {
           </span>
           {/* <span class="badge-top">{state.wishlist.length}</span> */}
         </li>
-        <li className={`pointer list-item-inline ${styles.badge_icon}`}>
-          <span
-            onClick={() => navigate("/cart")}
-            class="material-icons-outlined"
-          >
-            shopping_cart
-          </span>
-          <span className={`${styles.badge}`}>{cart.length}</span>
+        <li
+          className={`pointer list-item-inline ${styles.badge_icon}`}
+          onClick={() => navigate("/cart")}
+        >
+          <span class="material-icons-outlined">shopping_cart</span>
+          {token && <span className={`${styles.badge}`}>{cart.length}</span>}
         </li>
         <li className="list-item-inline">
           {!token ? (

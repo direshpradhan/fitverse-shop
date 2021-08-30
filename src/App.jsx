@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { Cart } from "./Pages/Cart/Cart";
 import { Products } from "./Pages/Products/Products";
 import "./styles.css";
@@ -8,14 +8,17 @@ import { Login } from "./Pages/Login/Login";
 import { Signup } from "./Pages/Signup/Signup";
 import { PrivateRoute } from "./PrivateRoute";
 import { ProductDetails } from "./Pages/ProductDetails/ProductDetails";
+import { Home } from "./Pages/Home/Home";
 
 export default function App() {
+  const location = useLocation();
   return (
     <div className="App">
+      {/* {location.pathname !== "/" && <Nav />} */}
       <Nav />
-
       <Routes>
-        <Route path="/" element={<Products />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/products" element={<Products />} />
         <Route path="/product/:productId" element={<ProductDetails />} />
         <PrivateRoute path="/cart" element={<Cart />} />
         <PrivateRoute path="/wishlist" element={<Wishlist />} />

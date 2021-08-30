@@ -61,7 +61,6 @@ export const AuthContextProvider = ({ children }) => {
   }
 
   function loginUser({ token, user }) {
-    console.log("signup se aaya hu...");
     setToken(token);
     setUser(user);
     setupAuthHeaderForServiceCalls(token);
@@ -69,6 +68,7 @@ export const AuthContextProvider = ({ children }) => {
       "login",
       JSON.stringify({ login: true, token, user })
     );
+    console.log(state);
     navigate(state?.from ? state.from : "/");
   }
 
