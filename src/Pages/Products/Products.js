@@ -1,3 +1,4 @@
+import { Loader } from "../../Components/Loader/Loader";
 import { ProductCard } from "../../Components/ProductCard/ProductCard";
 import { useData } from "../../Context/DataContext";
 import { ProductOperations } from "./ProductOperations";
@@ -64,15 +65,19 @@ export const Products = ({ setRoute }) => {
     <div className={`${styles.products} flex`}>
       <ProductOperations />
       <ProductOperationsSidebar />
-      <div className={`${styles.card_container}`}>
-        {products.length !== 0 ? (
-          filteredData.map((product) => (
+      {products.length !== 0 ? (
+        <div className={`${styles.card_container}`}>
+          {filteredData.map((product) => (
             <ProductCard product={product} setRoute={setRoute} />
-          ))
-        ) : (
-          <h1>Loading.....</h1>
-        )}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <div className={`${styles.loader_container}`}>
+          <Loader />
+        </div>
+
+        // <h1>Loading.....</h1>
+      )}
     </div>
   );
 };
