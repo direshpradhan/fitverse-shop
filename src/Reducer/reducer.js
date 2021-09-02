@@ -28,6 +28,9 @@ export const reducer = (state, action) => {
         cart: [...state.cart, { ...action.payload, quantity: 1 }],
       };
 
+    case "CLEAR_CART":
+      return { ...state, cart: [] };
+
     case "ADD_TO_WISHLIST":
       console.log(state.wishlist);
       const isInWishlist = state.wishlist.find(

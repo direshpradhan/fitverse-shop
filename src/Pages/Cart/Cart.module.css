@@ -82,6 +82,35 @@
   font-weight: 400;
 }
 
+.loader {
+  width: 25px;
+  height: 25px;
+  margin: 0 auto;
+  border: 4px solid #d1d5db;
+  border-radius: 50%;
+  border-top: 4px solid var(--dark-gray);
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 @media screen and (min-width: 768px) {
   .item_list {
     width: 90%;

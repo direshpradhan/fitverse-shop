@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { CartCard } from "../../Components/CartCard/CartCard";
 import { useAuth } from "../../Context/AuthContext";
 import { useData } from "../../Context/DataContext";
@@ -5,8 +6,9 @@ import { PaymentService } from "../../services/paymentService/payment.services";
 import styles from "./Cart.module.css";
 
 export const Cart = () => {
-  const { cart } = useData();
+  let { cart, dispatch } = useData();
   const { user } = useAuth();
+  const [paymentStatus, setPaymentStatus] = useState("idle");
 
   const getTotalPrice = (items) => {
     return items.reduce(
@@ -25,6 +27,22 @@ export const Cart = () => {
   const totalBillAmount =
     getTotalPrice > 499 ? getTotalPrice(cart) : getTotalPrice(cart) + 40;
 
+  const placeOrder = async () => {
+    setPaymentStatus("loading");
+    const response = await PaymentService(
+      totalBillAmount,
+      user,
+      setPaymentStatus
+    );
+    response === "success" && setPaymentStatus("fulfilled");
+  };
+
+  useEffect(() => {
+    if (paymentStatus === "Payment Successful") {
+      dispatch({ type: "CLEAR_CART" });
+    }
+  }, [paymentStatus]);
+
   return (
     <div className="App">
       {cart.length > 0 ? (
@@ -32,7 +50,6 @@ export const Cart = () => {
       ) : (
         ""
       )}
-      {/* style={{ display: "flex", flexWrap: "wrap" }} */}
       {cart.length > 0 ? (
         <div className={`${styles.main_container}`}>
           <ul className={`list-non-bullet ${styles.item_list}`}>
@@ -78,11 +95,12 @@ export const Cart = () => {
                 <span>&#8377; {totalBillAmount}</span>
               </span>
             </div>
-            <button
-              className={`${styles.button}`}
-              onClick={() => PaymentService(totalBillAmount, user)}
-            >
-              Place Order
+            <button className={`${styles.button}`} onClick={() => placeOrder()}>
+              {paymentStatus === "loading" ? (
+                <p className={`${styles.loader}`}></p>
+              ) : (
+                "Place Order"
+              )}
             </button>
           </div>
         </div>

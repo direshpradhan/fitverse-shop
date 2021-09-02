@@ -19,7 +19,11 @@ function loadScript(src) {
   });
 }
 
-export const PaymentService = async (totalBillAmount, user) => {
+export const PaymentService = async (
+  totalBillAmount,
+  user,
+  setPaymentStatus
+) => {
   const res = await loadScript(`${RAZORPAY_CHECKOUT_API}`);
   if (!res) {
     return alert("Razorpay SDK failed to load. Are you online?");
@@ -53,6 +57,7 @@ export const PaymentService = async (totalBillAmount, user) => {
       const result = await axios.post(`${API_URL}/payment/success`, data);
       console.log(result);
       alert(result.data.message);
+      setPaymentStatus((status) => result.data.message);
     },
     prefill: {
       name: user.name,
@@ -69,4 +74,10 @@ export const PaymentService = async (totalBillAmount, user) => {
 
   const paymentObject = new window.Razorpay(options);
   paymentObject.open();
+  if (paymentObject) {
+    console.log(paymentObject);
+    return "success";
+  } else {
+    return "failed";
+  }
 };
