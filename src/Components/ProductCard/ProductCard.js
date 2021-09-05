@@ -54,11 +54,10 @@ export const ProductCard = ({ product }) => {
     <div key={id} className={`${styles.card}`}>
       {/* <div style={{ width: "75%" }}> */}
       <img
-        className={`${styles.product_img}`}
+        className={`${styles.product_img} pointer`}
         src={image}
-        // width="175px"
-        // height="175px"
         alt="productImage"
+        onClick={() => navigate(`/product/${id}`)}
       />
       {/* </div> */}
       <div className={`${styles.product_details} flex flex-col`}>

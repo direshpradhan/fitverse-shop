@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { CartCard } from "../../Components/CartCard/CartCard";
 import { useAuth } from "../../Context/AuthContext";
 import { useData } from "../../Context/DataContext";
+import { clearCartService } from "../../services";
 import { PaymentService } from "../../services/paymentService/payment.services";
 import styles from "./Cart.module.css";
 
@@ -39,7 +40,8 @@ export const Cart = () => {
 
   useEffect(() => {
     if (paymentStatus === "Payment Successful") {
-      dispatch({ type: "CLEAR_CART" });
+      clearCartService(dispatch);
+      // dispatch({ type: "CLEAR_CART" });
     }
   }, [paymentStatus]);
 

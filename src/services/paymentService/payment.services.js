@@ -75,7 +75,6 @@ export const PaymentService = async (
   const paymentObject = new window.Razorpay(options);
   paymentObject.open();
   if (paymentObject) {
-    console.log(paymentObject);
     return "success";
   } else {
     return "failed";

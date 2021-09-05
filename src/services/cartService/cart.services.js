@@ -67,3 +67,12 @@ export async function moveToWishlistService(id, cartItem, dispatch) {
     }
   } catch (error) {}
 }
+
+export async function clearCartService(dispatch) {
+  try {
+    const cartResponse = await axios.delete(`${API_URL}/cart/`);
+    if (cartResponse.status === 200) {
+      dispatch({ type: "CLEAR_CART" });
+    }
+  } catch (error) {}
+}

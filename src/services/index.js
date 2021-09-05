@@ -7,6 +7,7 @@ export {
   decrementQuantityService,
   removeProductFromCartService,
   moveToWishlistService,
+  clearCartService,
 } from "./cartService/cart.services";
 export {
   getWishlistProducts,
