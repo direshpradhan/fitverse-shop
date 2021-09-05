@@ -1,11 +1,11 @@
-import { useState } from "react";
+// import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
 import { useData } from "../../Context/DataContext";
 import styles from "./Nav.module.css";
 
 export const Nav = () => {
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
   const { cart } = useData();
   const { token, logout, user } = useAuth();
   const navigate = useNavigate();
@@ -30,7 +30,9 @@ export const Nav = () => {
           onClick={() => navigate("/cart")}
         >
           <span class="material-icons-outlined">shopping_cart</span>
-          {token && <span className={`${styles.badge}`}>{cart.length}</span>}
+          {token && (
+            <span className={`${styles.badge}`}>{cart ? cart.length : 0}</span>
+          )}
         </li>
         <li className="list-item-inline">
           {!token ? (

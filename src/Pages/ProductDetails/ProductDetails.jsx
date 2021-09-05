@@ -9,25 +9,21 @@ import {
   addToWishlistService,
   removeFromWishlistService,
 } from "../../services";
+import { Loader } from "../../Components/Loader/Loader";
 
 export const ProductDetails = (_) => {
   const { productId } = useParams();
-  const { state, products, dispatch } = useData();
+  const { state, products, dispatch, cart, wishlist } = useData();
   const { token } = useAuth();
   const navigate = useNavigate();
-  console.log(token);
-  console.log("id", productId);
-  console.log("array", products);
   const product = products.find((product) => product._id === productId);
   const relatedProducts = products.filter(
     (item) => item.category === product.category && item._id !== product._id
   );
-  const isInCart = state.cart.find((cartItem) => cartItem._id === product._id);
-  console.log(relatedProducts);
+  const isInCart = cart?.find((cartItem) => cartItem._id === product._id);
 
   const addToCart = async (id) => {
     try {
-      console.log(id);
       const newCartItem = { product: { _id: id } };
       console.log(token);
       // toastId.current = toast.info("Adding to Cart...");
@@ -45,18 +41,15 @@ export const ProductDetails = (_) => {
         // }
         addToCartService(newCartItem, product, dispatch);
       } else {
-        console.log("login");
         navigate("/login");
       }
     } catch (error) {
-      console.log(id);
       console.log(error.message);
     }
   };
 
   const addToWishlist = async (id) => {
     try {
-      console.log("wishlist");
       const newWishlistItem = { product: { _id: id } };
       if (token) {
         // const response = await axios.post(
@@ -96,6 +89,7 @@ export const ProductDetails = (_) => {
 
   return (
     <div>
+      {product === undefined && <Loader />}
       {product !== undefined && (
         <div className={`${styles.main_container}`}>
           <div className={`${styles.image_container} flex`}>
@@ -162,7 +156,7 @@ export const ProductDetails = (_) => {
                 </button>
               )}
 
-              {!state.wishlist?.find(
+              {!wishlist?.find(
                 (wishlistItem) => wishlistItem._id === product._id
               ) ? (
                 <button
@@ -193,16 +187,22 @@ export const ProductDetails = (_) => {
           </div>
         </div>
       )}
-      <h3 className={`${styles.similar_products_title}`}>Similar Products:</h3>
-      <div className={`${styles.similar_products} flex`}>
-        {relatedProducts.map((product) => {
-          return (
-            <div className={`${styles.card_container}`}>
-              <ProductCard product={product} />
-            </div>
-          );
-        })}
-      </div>
+      {product !== undefined && (
+        <>
+          <h3 className={`${styles.similar_products_title}`}>
+            Similar Products:
+          </h3>
+          <div className={`${styles.similar_products} flex`}>
+            {relatedProducts.map((product) => {
+              return (
+                <div className={`${styles.card_container}`}>
+                  <ProductCard product={product} />
+                </div>
+              );
+            })}
+          </div>
+        </>
+      )}
     </div>
   );
 };

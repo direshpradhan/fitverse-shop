@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { CartCard } from "../../Components/CartCard/CartCard";
+import { Loader } from "../../Components/Loader/Loader";
 import { useAuth } from "../../Context/AuthContext";
 import { useData } from "../../Context/DataContext";
 import { clearCartService } from "../../services";
@@ -12,14 +13,14 @@ export const Cart = () => {
   const [paymentStatus, setPaymentStatus] = useState("idle");
 
   const getTotalPrice = (items) => {
-    return items.reduce(
+    return items?.reduce(
       (total, item) => total + item.discountedPrice * item.quantity,
       0
     );
   };
 
   const getTotalDiscountPrice = (items) => {
-    return items.reduce(
+    return items?.reduce(
       (total, item) => total + item.actualPrice * item.quantity,
       0
     );
@@ -47,12 +48,18 @@ export const Cart = () => {
 
   return (
     <div className="App">
-      {cart.length > 0 ? (
+      {cart?.length > 0 ? (
         <h2 className={`heading-md text-centre ${styles.heading}`}>My Cart</h2>
       ) : (
         ""
       )}
-      {cart.length > 0 ? (
+      {cart?.length === 0 ? (
+        <div className={`${styles.cart_empty}`}>
+          <div>Your Cart is empty</div>
+        </div>
+      ) : cart === null ? (
+        <Loader />
+      ) : (
         <div className={`${styles.main_container}`}>
           <ul className={`list-non-bullet ${styles.item_list}`}>
             {cart.map((cartItem) => (
@@ -105,12 +112,6 @@ export const Cart = () => {
               )}
             </button>
           </div>
-        </div>
-      ) : (
-        <div className={`${styles.cart_empty}`}>
-          <div>Your Cart is empty</div>
-          {/* <p>Let's add some items to your cart</p>
-          <button></button> */}
         </div>
       )}{" "}
     </div>

@@ -23,11 +23,11 @@ export const ProductCard = ({ product }) => {
     inStock,
     fastDelivery,
   } = product;
-  const { state, dispatch } = useData();
+  const { state, dispatch, cart, wishlist } = useData();
   const { token } = useAuth();
   const navigate = useNavigate();
-  const isInCart = state.cart.find((cartItem) => cartItem._id === id);
-  const isInWishList = state.wishlist?.find(
+  const isInCart = cart?.find((cartItem) => cartItem._id === id);
+  const isInWishList = wishlist?.find(
     (wishlistItem) => wishlistItem._id === id
   );
   // const toastId = useRef(null);

@@ -1,6 +1,7 @@
 import { useData } from "../../Context/DataContext";
 import { WishlistCard } from "../../Components/WishlistCard/WishlistCard";
 import styles from "./Wishlist.module.css";
+import { Loader } from "../../Components/Loader/Loader";
 
 export const Wishlist = ({ setRoute }) => {
   const { wishlist } = useData();
@@ -13,18 +14,20 @@ export const Wishlist = ({ setRoute }) => {
       ) : (
         ""
       )}
-      {wishlist?.length > 0 ? (
-        <div className="App" style={{ display: "flex", flexWrap: "wrap" }}>
+      {wishlist?.length === 0 ? (
+        <div className={`${styles.wishlist_empty}`}>
+          <div>Your wishlist is empty</div>
+        </div>
+      ) : wishlist === null ? (
+        <Loader />
+      ) : (
+        <div className={`${styles.wishlistProduct_container}`}>
           {wishlist.map((wishlistItem) => {
             console.log(wishlistItem);
             return (
               <WishlistCard wishlistItem={wishlistItem} setRoute={setRoute} />
             );
           })}
-        </div>
-      ) : (
-        <div className={`${styles.wishlist_empty}`}>
-          <div>Your wishlist is empty</div>
         </div>
       )}
     </div>

@@ -1,7 +1,7 @@
 export const initialState = {
   products: [],
-  cart: [],
-  wishlist: [],
+  cart: null,
+  wishlist: null,
   sortBy: null,
   fastDeliveryOnly: false,
   showInventoryAll: false,
@@ -22,7 +22,6 @@ export const reducer = (state, action) => {
       return { ...state, wishlist: action.payload };
 
     case "ADD_TO_CART":
-      console.log(state.cart);
       return {
         ...state,
         cart: [...state.cart, { ...action.payload, quantity: 1 }],
@@ -32,8 +31,7 @@ export const reducer = (state, action) => {
       return { ...state, cart: [] };
 
     case "ADD_TO_WISHLIST":
-      console.log(state.wishlist);
-      const isInWishlist = state.wishlist.find(
+      const isInWishlist = state.wishlist?.find(
         (wishlistItem) => wishlistItem._id === action.payload._id
       );
       if (!isInWishlist) {
@@ -42,7 +40,7 @@ export const reducer = (state, action) => {
       return state;
 
     case "INCREMENT_QUANTITY":
-      const increasedQuantity = state.cart.map((cartItem) => {
+      const increasedQuantity = state.cart?.map((cartItem) => {
         if (cartItem._id === action.payload) {
           return { ...cartItem, quantity: cartItem.quantity + 1 };
         }
@@ -52,7 +50,7 @@ export const reducer = (state, action) => {
 
     case "DECREMENT_QUANTITY":
       const decreasedQuantity = state.cart
-        .map((cartItem) => {
+        ?.map((cartItem) => {
           if (cartItem._id === action.payload) {
             return { ...cartItem, quantity: cartItem.quantity - 1 };
           }
@@ -63,13 +61,13 @@ export const reducer = (state, action) => {
       return { ...state, cart: decreasedQuantity };
 
     case "REMOVE_CART_ITEM":
-      const newCart = state.cart.filter(
+      const newCart = state.cart?.filter(
         (cartItem) => cartItem._id !== action.payload
       );
       return { ...state, cart: newCart };
 
     case "REMOVE_WISHLIST_ITEM":
-      const newWishlist = state.wishlist.filter(
+      const newWishlist = state.wishlist?.filter(
         (wishItem) => wishItem._id !== action.payload
       );
       return { ...state, wishlist: newWishlist };
@@ -87,11 +85,11 @@ export const reducer = (state, action) => {
       return { ...state, fastDeliveryOnly: !state.fastDeliveryOnly };
 
     case "MOVE_TO_WISHLIST":
-      const changedCart = state.cart.filter(
+      const changedCart = state.cart?.filter(
         (cartItem) => cartItem._id !== action.payload._id
       );
 
-      const isInWishList = state.wishlist.find(
+      const isInWishList = state.wishlist?.find(
         (wishlistItem) => wishlistItem._id === action.payload._id
       );
 
@@ -109,11 +107,11 @@ export const reducer = (state, action) => {
 
     case "MOVE_TO_CART":
       console.log("entered");
-      const changedWishlist = state.wishlist.filter(
+      const changedWishlist = state.wishlist?.filter(
         (wishlistItem) => wishlistItem._id !== action.payload._id
       );
 
-      const isInCart = state.cart.find(
+      const isInCart = state.cart?.find(
         (cartItem) => cartItem._id === action.payload._id
       );
 
