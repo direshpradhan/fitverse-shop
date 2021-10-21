@@ -1,0 +1,86 @@
+.nav {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  padding: 1rem 0.75rem;
+  margin-bottom: 2rem;
+  height: 10vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2;
+  box-shadow: 0 1px 10px 0 rgb(148 150 159 / 30%);
+  background-color: white;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.nav > div:first-of-type {
+  font-size: 1.5rem;
+}
+
+.btn {
+  background-color: var(--primary-color);
+  padding: 0.5rem 0.9rem;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.btn_transparent {
+  background-color: transparent;
+  color: black;
+  font-size: 1.1rem;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  line-height: 1.5rem;
+  border: none;
+}
+
+.btn_transparent:hover {
+  opacity: 0.8;
+}
+
+.modal_account {
+  position: fixed;
+  background-color: transparent;
+  font-weight: 400;
+  font-size: 1rem;
+  top: 10vh;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.hide {
+  display: none;
+}
+
+.badge_icon {
+  position: relative;
+}
+
+.badge {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: -0.75rem;
+  right: -0.4rem;
+  border: 2px solid white;
+  height: 22px;
+  width: 22px;
+  color: white;
+  font-size: 0.9rem;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+}
+
+@media screen and (min-width: 768px) {
+  .nav {
+    padding: 1rem 1.5rem;
+  }
+}
